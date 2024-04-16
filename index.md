@@ -94,7 +94,7 @@ end
 
 ### Small image
 
-![Cabin](https://github.githubassets.com/images/cabin.png)
+![Cabin](/wahkonsalodge.github.io/assets/images/cabin.png)
 
 ### Large image
 
