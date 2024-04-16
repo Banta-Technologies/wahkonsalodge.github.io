@@ -94,7 +94,7 @@ end
 
 ### Small image
 
-![Cabin](https://github.githubassets.com/images/icons/emoji/cabin.png)
+![Cabin](https://github.githubassets.com/images/cabin.png)
 
 ### Large image
 
