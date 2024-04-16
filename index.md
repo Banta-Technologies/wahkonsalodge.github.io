@@ -94,7 +94,7 @@ end
 
 ### Small image
 
-
+![Cabin](docs/assets/images/cabin.png){:height="400px" width="400px"} 
 
 
 ### Large image
