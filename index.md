@@ -94,7 +94,7 @@ end
 
 ### Small image
 
-![Cabin](docs/assets/images/cabin.png) {:width="25%"}
+![Cabin](docs/assets/images/cabin.png) {:width="100"}
 
 
 ### Large image
