@@ -6,7 +6,7 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://CommunityCommodityComputerCoaching.github.io',
+  site: 'https://wahkonsalodge.com',
   base: '/',
   integrations: [tailwind(), mdx(), sitemap(), icon()],
 });
