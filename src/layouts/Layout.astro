@@ -27,7 +27,7 @@ const makeTitle = title
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- <link rel="preload" as="image" href={src} alt="Hero" /> -->
+    <!-- SEO -->
     <SEO
       title={makeTitle}
       description="Wahkonsa Lodge is a starter website template for Astro built with TailwindCSS."
@@ -62,11 +62,19 @@ const makeTitle = title
         content-visibility: auto;
       }
     </style>
-    <!-- Redbubble script -->
-    <script type="text/javascript" src="https://www.redbubble.com/assets/external_portfolio.js"></script>
-    <script type="text/javascript">
+
+    <!-- Load Redbubble script on client side -->
+    <script client:load>
       {`
-        new RBExternalPortfolio('www.redbubble.com', 'wahkonsalodge', 5, 5).renderIframe();
+        // Load the Redbubble script dynamically
+        const script = document.createElement('script');
+        script.src = 'https://www.redbubble.com/assets/external_portfolio.js';
+        script.type = 'text/javascript';
+        document.body.appendChild(script);
+
+        script.onload = () => {
+          new RBExternalPortfolio('www.redbubble.com', 'wahkonsalodge', 5, 5).renderIframe();
+        };
       `}
     </script>
   </body>
