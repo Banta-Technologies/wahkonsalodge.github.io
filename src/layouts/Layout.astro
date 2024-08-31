@@ -63,19 +63,6 @@ const makeTitle = title
       }
     </style>
 
-    <!-- Load Redbubble script on client side -->
-    <script client:load>
-      {`
-        // Load the Redbubble script dynamically
-        const script = document.createElement('script');
-        script.src = 'https://www.redbubble.com/assets/external_portfolio.js';
-        script.type = 'text/javascript';
-        document.body.appendChild(script);
 
-        script.onload = () => {
-          new RBExternalPortfolio('www.redbubble.com', 'wahkonsalodge', 5, 5).renderIframe();
-        };
-      `}
-    </script>
   </body>
 </html>
