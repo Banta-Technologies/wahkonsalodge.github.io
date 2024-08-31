@@ -4,7 +4,6 @@ import Footer from "@components/footer.astro";
 import Navbar from "@components/navbar/navbar.astro";
 import "@fontsource-variable/inter/index.css";
 import '@fontsource-variable/bricolage-grotesque';
-import { RedbubbleEmbed } from "@components/RedbubbleEmbed.astro";
 
 export interface Props {
   title: string;
@@ -54,7 +53,7 @@ const makeTitle = title
   <body>
     <Navbar />
     <slot />
-    <RedbubbleEmbed />  <!-- Add Redbubble embed here or where you prefer -->
+    <div id="redbubble-portfolio"></div> <!-- Placeholder for Redbubble embed -->
     <Footer />
     <style is:global>
       /* Improve Page speed */
@@ -63,5 +62,12 @@ const makeTitle = title
         content-visibility: auto;
       }
     </style>
+    <!-- Redbubble script -->
+    <script type="text/javascript" src="https://www.redbubble.com/assets/external_portfolio.js"></script>
+    <script type="text/javascript">
+      {`
+        new RBExternalPortfolio('www.redbubble.com', 'wahkonsalodge', 5, 5).renderIframe();
+      `}
+    </script>
   </body>
 </html>
