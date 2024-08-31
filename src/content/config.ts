@@ -12,7 +12,7 @@ const blogCollection = defineCollection({
       alt: z.string(),
     }),
     publishDate: z.string().transform(str => new Date(str)),
-    author: z.string().default('c4giving'),
+    author: z.string().default('Wahkonsa Lodge'),
     category: z.string(),
     tags: z.array(z.string()),
   }),
