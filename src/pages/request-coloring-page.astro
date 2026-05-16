@@ -1,0 +1,295 @@
+---
+import Container from "@components/container.astro";
+import Layout from "@layouts/Layout.astro";
+
+const requestEndpoint = import.meta.env.PUBLIC_COLORING_REQUEST_ENDPOINT ?? "";
+
+const requesterTypes = ["Student", "Teacher", "Parent", "Other"];
+const purposes = [
+  "Just for fun",
+  "Classroom activity",
+  "Holiday/event",
+  "Science topic",
+  "History/social studies topic",
+  "Other",
+];
+const gradeRanges = [
+  "Pre-K",
+  "K-2",
+  "3-5",
+  "6-8",
+  "High school",
+  "Adult",
+  "Not applicable",
+];
+const stylePreferences = [
+  "Simple coloring book",
+  "Cute cartoon",
+  "Realistic outline",
+  "Funny/silly",
+  "Nature-themed",
+  "Vehicle/mechanical",
+  "Storybook style",
+];
+---
+
+<Layout title="Request a Coloring Page">
+  <Container>
+    <main class="py-8">
+      <div class="mx-auto max-w-3xl">
+        <div class="border-b border-slate-200 pb-6">
+          <p class="text-sm font-semibold uppercase tracking-wide text-teal-700">
+            Wahkonsa Lodge Coloring Book
+          </p>
+          <h1 class="mt-2 text-4xl font-bold tracking-tight text-slate-900">
+            Request a Coloring Page
+          </h1>
+          <p class="mt-4 text-lg leading-8 text-slate-600">
+            Have a fun idea for a coloring page? Students, teachers, and parents
+            can suggest animals, vehicles, silly characters, classroom topics,
+            holidays, nature scenes, or anything creative and school-friendly.
+          </p>
+          <p class="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
+            Please do not include personal information such as your full name,
+            school name, address, phone number, or anything private. If you are
+            under 13, please have a parent or teacher help you submit a request.
+          </p>
+          <p class="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+            Requests should be school-friendly. Please avoid scary, violent,
+            hateful, adult, political, or personally identifying content.
+            Wahkonsa Lodge may edit, combine, or skip requests.
+          </p>
+        </div>
+
+        <form
+          id="coloring-request-form"
+          class="mt-8 space-y-8"
+          data-endpoint={requestEndpoint}
+          novalidate
+        >
+          <div class="hidden" aria-hidden="true">
+            <label for="website">Website</label>
+            <input
+              id="website"
+              name="website"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
+          <fieldset>
+            <legend class="text-base font-semibold text-slate-900">
+              Requester type <span class="text-red-600">*</span>
+            </legend>
+            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+              {
+                requesterTypes.map((type) => (
+                  <label class="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 text-sm font-medium text-slate-700 shadow-sm">
+                    <input
+                      class="h-4 w-4 border-slate-300 text-teal-700 focus:ring-teal-600"
+                      type="radio"
+                      name="requesterType"
+                      value={type}
+                      required
+                    />
+                    {type}
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <div>
+            <label
+              class="block text-base font-semibold text-slate-900"
+              for="idea"
+            >
+              Coloring page idea <span class="text-red-600">*</span>
+            </label>
+            <textarea
+              id="idea"
+              name="idea"
+              required
+              rows="6"
+              maxlength="1200"
+              placeholder={`A turtle eating pizza
+A school bus full of monkeys
+A tomato wearing a fedora
+A 1970s VW Beetle with flowers`}
+              class="mt-3 block w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20"
+            ></textarea>
+          </div>
+
+          <fieldset>
+            <legend class="text-base font-semibold text-slate-900">
+              Purpose <span class="text-red-600">*</span>
+            </legend>
+            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+              {
+                purposes.map((purpose) => (
+                  <label class="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 text-sm font-medium text-slate-700 shadow-sm">
+                    <input
+                      class="h-4 w-4 border-slate-300 text-teal-700 focus:ring-teal-600"
+                      type="radio"
+                      name="purpose"
+                      value={purpose}
+                      required
+                    />
+                    {purpose}
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <div>
+            <label
+              class="block text-base font-semibold text-slate-900"
+              for="gradeRange"
+            >
+              Grade or age range
+            </label>
+            <select
+              id="gradeRange"
+              name="gradeRange"
+              class="mt-3 block w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20"
+            >
+              <option value="">Choose one</option>
+              {gradeRanges.map((range) => <option value={range}>{range}</option>)}
+            </select>
+          </div>
+
+          <fieldset>
+            <legend class="text-base font-semibold text-slate-900">
+              Style preference
+            </legend>
+            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+              {
+                stylePreferences.map((style) => (
+                  <label class="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 text-sm font-medium text-slate-700 shadow-sm">
+                    <input
+                      class="h-4 w-4 rounded border-slate-300 text-teal-700 focus:ring-teal-600"
+                      type="checkbox"
+                      name="stylePreferences"
+                      value={style}
+                    />
+                    {style}
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <div>
+            <label
+              class="block text-base font-semibold text-slate-900"
+              for="replyEmail"
+            >
+              Email address
+            </label>
+            <p class="mt-1 text-sm text-slate-500">
+              Optional. Only used if you want to be notified if the idea is used.
+            </p>
+            <input
+              id="replyEmail"
+              name="replyEmail"
+              type="email"
+              autocomplete="email"
+              inputmode="email"
+              class="mt-3 block w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20"
+              placeholder="name@example.com"
+            />
+          </div>
+
+          <div
+            id="form-message"
+            class="hidden rounded-lg border p-4 text-sm leading-6"
+            role="status"
+            aria-live="polite"
+          >
+          </div>
+
+          <button
+            id="submit-button"
+            type="submit"
+            class="inline-flex w-full items-center justify-center rounded-lg bg-teal-700 px-6 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-400 sm:w-auto"
+          >
+            Send Request
+          </button>
+        </form>
+      </div>
+    </main>
+  </Container>
+</Layout>
+
+<script define:vars={{ requestEndpoint }}>
+  const form = document.querySelector("#coloring-request-form");
+  const message = document.querySelector("#form-message");
+  const submitButton = document.querySelector("#submit-button");
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className =
+      type === "success"
+        ? "rounded-lg border border-teal-200 bg-teal-50 p-4 text-sm leading-6 text-teal-950"
+        : "rounded-lg border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-950";
+  }
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    if (!requestEndpoint) {
+      showMessage(
+        "Something went wrong while sending your request. Please try again later.",
+        "error"
+      );
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+
+    const formData = new FormData(form);
+    const payload = {
+      requesterType: formData.get("requesterType"),
+      idea: formData.get("idea"),
+      purpose: formData.get("purpose"),
+      gradeRange: formData.get("gradeRange"),
+      stylePreferences: formData.getAll("stylePreferences"),
+      replyEmail: formData.get("replyEmail"),
+      website: formData.get("website"),
+    };
+
+    try {
+      const response = await fetch(requestEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      form.reset();
+      showMessage(
+        "Thanks for the idea! Your coloring page request has been received. We review requests and may turn selected ideas into printable coloring pages for Wahkonsa Lodge.",
+        "success"
+      );
+    } catch (error) {
+      showMessage(
+        "Something went wrong while sending your request. Please try again later.",
+        "error"
+      );
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Request";
+    }
+  });
+</script>

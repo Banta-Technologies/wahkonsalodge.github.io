@@ -142,6 +142,49 @@ Any static assets, like images, can be placed in the `public/` directory.
 
 TailwindCSS is already configured in this repo, so you can start using it without any installation.
 
+## Coloring Page Request Form
+
+The `/request-coloring-page` page is a static Astro page with a friendly request form for students, teachers, and parents. Because this site is deployed on GitHub Pages, GitHub Pages cannot run server-side email code directly. The form posts to a separate serverless endpoint configured at build time with:
+
+```bash
+PUBLIC_COLORING_REQUEST_ENDPOINT="https://your-worker-or-function-url.example"
+```
+
+Set `PUBLIC_COLORING_REQUEST_ENDPOINT` as a GitHub Actions repository variable so the Pages build includes the endpoint URL. Locally, copy `.env.example` to `.env` and set the same value before running the dev server.
+
+### Email Handler
+
+A Cloudflare Worker-compatible handler is included at `serverless/coloring-request-worker.mjs`. It validates the required fields server-side, validates optional email format, uses a honeypot field, applies basic in-memory rate limiting, and sends the email through Resend.
+
+Required Worker environment variables:
+
+```bash
+RESEND_API_KEY=""
+EMAIL_FROM="Wahkonsa Lodge <no-reply@wahkonsalodge.com>"
+EMAIL_TO="vlbanta@gmail.com"
+ALLOWED_ORIGIN="https://wahkonsalodge.com"
+```
+
+`EMAIL_FROM` must be a sender/domain verified in Resend. `EMAIL_TO` defaults to `vlbanta@gmail.com` if it is not set.
+
+### Local Testing
+
+Install dependencies and start Astro:
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Open `http://localhost:4321/request-coloring-page`. To test successful email delivery, run or deploy the serverless handler and set:
+
+```bash
+PUBLIC_COLORING_REQUEST_ENDPOINT="http://localhost:8787"
+ALLOWED_ORIGIN="http://localhost:4321"
+```
+
+Then submit the form. If `PUBLIC_COLORING_REQUEST_ENDPOINT` is empty, the page still builds, but submissions show the generic error message because there is no server-side email endpoint to receive them.
+
 ## Credits
 
 [Hero Illustration](https://www.figma.com/community/file/1108400791662599811) by [Streamline](https://www.streamlinehq.com/)
