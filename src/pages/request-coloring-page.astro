@@ -2,7 +2,9 @@
 import Container from "@components/container.astro";
 import Layout from "@layouts/Layout.astro";
 
-const requestEndpoint = import.meta.env.PUBLIC_COLORING_REQUEST_ENDPOINT ?? "";
+const requestEndpoint =
+  import.meta.env.PUBLIC_COLORING_REQUEST_ENDPOINT ??
+  "https://6lqjvy3en7.execute-api.us-east-1.amazonaws.com/coloring-request";
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const requesterTypes = ["Student", "Teacher", "Parent", "Other"];
