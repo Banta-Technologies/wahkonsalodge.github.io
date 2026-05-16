@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Wahkonsa Lodge coloring page request email endpoint.
+
+Parameters:
+  AllowedOrigin:
+    Type: String
+    Default: https://wahkonsalodge.com
+  EmailFrom:
+    Type: String
+    Default: Wahkonsa Lodge <no-reply@wahkonsalodge.com>
+  EmailTo:
+    Type: String
+    Default: vlbanta@gmail.com
+  TurnstileSecretKey:
+    Type: String
+    Default: ""
+    NoEcho: true
+
+Resources:
+  ColoringRequestApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins:
+          - !Ref AllowedOrigin
+        AllowMethods:
+          - OPTIONS
+          - POST
+        AllowHeaders:
+          - Content-Type
+
+  ColoringRequestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs20.x
+      Handler: aws-coloring-request-lambda.handler
+      CodeUri: .
+      MemorySize: 128
+      Timeout: 10
+      Environment:
+        Variables:
+          ALLOWED_ORIGIN: !Ref AllowedOrigin
+          EMAIL_FROM: !Ref EmailFrom
+          EMAIL_TO: !Ref EmailTo
+          TURNSTILE_SECRET_KEY: !Ref TurnstileSecretKey
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ses:SendEmail
+                - ses:SendRawEmail
+              Resource: "*"
+      Events:
+        ColoringRequest:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ColoringRequestApi
+            Path: /coloring-request
+            Method: POST
+
+Outputs:
+  ColoringRequestEndpoint:
+    Description: Set PUBLIC_COLORING_REQUEST_ENDPOINT to this URL.
+    Value: !Sub "https://${ColoringRequestApi}.execute-api.${AWS::Region}.amazonaws.com/coloring-request"

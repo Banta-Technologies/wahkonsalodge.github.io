@@ -3,6 +3,7 @@ import Container from "@components/container.astro";
 import Layout from "@layouts/Layout.astro";
 
 const requestEndpoint = import.meta.env.PUBLIC_COLORING_REQUEST_ENDPOINT ?? "";
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 const requesterTypes = ["Student", "Teacher", "Parent", "Other"];
 const purposes = [
@@ -210,6 +211,16 @@ A 1970s VW Beetle with flowers`}
           >
           </div>
 
+          {
+            turnstileSiteKey && (
+              <div
+                class="cf-turnstile"
+                data-sitekey={turnstileSiteKey}
+                data-theme="light"
+              />
+            )
+          }
+
           <button
             id="submit-button"
             type="submit"
@@ -223,7 +234,17 @@ A 1970s VW Beetle with flowers`}
   </Container>
 </Layout>
 
-<script define:vars={{ requestEndpoint }}>
+{
+  turnstileSiteKey && (
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    />
+  )
+}
+
+<script define:vars={{ requestEndpoint, turnstileSiteKey }}>
   const form = document.querySelector("#coloring-request-form");
   const message = document.querySelector("#form-message");
   const submitButton = document.querySelector("#submit-button");
@@ -264,7 +285,18 @@ A 1970s VW Beetle with flowers`}
       stylePreferences: formData.getAll("stylePreferences"),
       replyEmail: formData.get("replyEmail"),
       website: formData.get("website"),
+      turnstileToken: formData.get("cf-turnstile-response"),
     };
+
+    if (turnstileSiteKey && !payload.turnstileToken) {
+      showMessage(
+        "Something went wrong while sending your request. Please try again later.",
+        "error"
+      );
+      submitButton.disabled = false;
+      submitButton.textContent = "Send Request";
+      return;
+    }
 
     try {
       const response = await fetch(requestEndpoint, {
@@ -278,6 +310,7 @@ A 1970s VW Beetle with flowers`}
       }
 
       form.reset();
+      window.turnstile?.reset();
       showMessage(
         "Thanks for the idea! Your coloring page request has been received. We review requests and may turn selected ideas into printable coloring pages for Wahkonsa Lodge.",
         "success"
@@ -287,6 +320,7 @@ A 1970s VW Beetle with flowers`}
         "Something went wrong while sending your request. Please try again later.",
         "error"
       );
+      window.turnstile?.reset();
     } finally {
       submitButton.disabled = false;
       submitButton.textContent = "Send Request";

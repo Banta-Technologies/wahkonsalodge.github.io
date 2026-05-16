@@ -152,20 +152,50 @@ PUBLIC_COLORING_REQUEST_ENDPOINT="https://your-worker-or-function-url.example"
 
 Set `PUBLIC_COLORING_REQUEST_ENDPOINT` as a GitHub Actions repository variable so the Pages build includes the endpoint URL. Locally, copy `.env.example` to `.env` and set the same value before running the dev server.
 
-### Email Handler
+### AWS Email Handler
 
-A Cloudflare Worker-compatible handler is included at `serverless/coloring-request-worker.mjs`. It validates the required fields server-side, validates optional email format, uses a honeypot field, applies basic in-memory rate limiting, and sends the email through Resend.
+The recommended low-cost production setup is Amazon API Gateway HTTP API, AWS Lambda, and Amazon SES. The included `serverless/aws-coloring-request-lambda.mjs` handler validates the required fields server-side, validates optional email format, uses a honeypot field, applies basic in-memory rate limiting, optionally verifies Cloudflare Turnstile, and sends email through SES.
 
-Required Worker environment variables:
+Before deploying, verify an SES identity in the AWS region you plan to use. For the quickest first test, verify `vlbanta@gmail.com`. For production, verify the `wahkonsalodge.com` domain so the sender can be `no-reply@wahkonsalodge.com`. If the SES account is still in sandbox mode, SES can only send to verified recipients.
+
+Deploy with AWS SAM:
 
 ```bash
-RESEND_API_KEY=""
-EMAIL_FROM="Wahkonsa Lodge <no-reply@wahkonsalodge.com>"
-EMAIL_TO="vlbanta@gmail.com"
-ALLOWED_ORIGIN="https://wahkonsalodge.com"
+cd serverless
+sam deploy --guided --template-file aws-sam-template.yaml
 ```
 
-`EMAIL_FROM` must be a sender/domain verified in Resend. `EMAIL_TO` defaults to `vlbanta@gmail.com` if it is not set.
+Use these parameter values unless you have a reason to change them:
+
+```bash
+AllowedOrigin="https://wahkonsalodge.com"
+EmailFrom="Wahkonsa Lodge <no-reply@wahkonsalodge.com>"
+EmailTo="vlbanta@gmail.com"
+TurnstileSecretKey=""
+```
+
+After deploy, SAM prints `ColoringRequestEndpoint`. Set that value as the GitHub Actions repository variable:
+
+```bash
+PUBLIC_COLORING_REQUEST_ENDPOINT="https://abc123.execute-api.us-east-1.amazonaws.com/coloring-request"
+```
+
+Then rerun the GitHub Pages workflow so the static page is rebuilt with the endpoint URL.
+
+### Optional Captcha
+
+The form supports Cloudflare Turnstile. Create a Turnstile site in Cloudflare, then set:
+
+```bash
+PUBLIC_TURNSTILE_SITE_KEY="site-key-from-cloudflare"
+TurnstileSecretKey="secret-key-from-cloudflare"
+```
+
+`PUBLIC_TURNSTILE_SITE_KEY` is a GitHub Actions repository variable for the Astro build. `TurnstileSecretKey` is an AWS SAM/Lambda parameter and must stay server-side.
+
+### Other Email Handlers
+
+A Cloudflare Worker-compatible Resend example is also included at `serverless/coloring-request-worker.mjs`. It is kept as an alternate path, but the AWS Lambda + SES handler is the preferred option for this project.
 
 ### Local Testing
 
@@ -176,11 +206,10 @@ pnpm install
 pnpm dev
 ```
 
-Open `http://localhost:4321/request-coloring-page`. To test successful email delivery, run or deploy the serverless handler and set:
+Open `http://localhost:4321/request-coloring-page`. To test successful email delivery, deploy the AWS endpoint and set:
 
 ```bash
-PUBLIC_COLORING_REQUEST_ENDPOINT="http://localhost:8787"
-ALLOWED_ORIGIN="http://localhost:4321"
+PUBLIC_COLORING_REQUEST_ENDPOINT="https://abc123.execute-api.us-east-1.amazonaws.com/coloring-request"
 ```
 
 Then submit the form. If `PUBLIC_COLORING_REQUEST_ENDPOINT` is empty, the page still builds, but submissions show the generic error message because there is no server-side email endpoint to receive them.
