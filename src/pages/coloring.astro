@@ -1,0 +1,105 @@
+---
+import Container from "@components/container.astro";
+import Layout from "@layouts/Layout.astro";
+
+const imageFiles = [
+  "babydino.png",
+  "bananasplit.png",
+  "banner.png",
+  "beach.png",
+  "brontowhutsit.png",
+  "bullfrog.png",
+  "butterfly1.png",
+  "butterfly2.png",
+  "cabin.png",
+  "candybowl.png",
+  "chicken.png",
+  "chickenbanana.png",
+  "coolpepper.png",
+  "fish.png",
+  "fishbowl.png",
+  "flipflopflowers.png",
+  "forestfairy.png",
+  "forestprincess.png",
+  "fosterpickles.png",
+  "mapache.png",
+  "octopus.png",
+  "peaceloveandequality.png",
+  "picklesombrero.png",
+  "piggy.png",
+  "queenofthepickles.png",
+  "rabbit.png",
+  "raptors.png",
+  "samthetomato.png",
+  "sandals.png",
+  "seaturtle.png",
+  "squirrel1.png",
+  "squirrel2.png",
+  "starfish.png",
+  "stegowhutsit.png",
+  "sunflower.png",
+  "sunshine.png",
+  "suntanlotion.png",
+  "t-rex.png",
+  "taco.png",
+  "taquitoprincess.png",
+  "triwhutsit.png",
+  "unicornskateboard.png",
+  "unifrog.png",
+  "urbanprincess.png",
+  "watermelonslice.png",
+];
+
+function formatTitle(filename: string) {
+  return filename
+    .replace(/\.[^/.]+$/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/([a-zA-Z])(\d)/g, "$1 $2")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+---
+
+<Layout title="Coloring Book">
+  <Container>
+    <main class="py-8">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl font-bold tracking-tight text-slate-900">
+          Coloring Book
+        </h1>
+        <p class="mt-3 text-lg text-slate-600">
+          Printable coloring pages from Wahkonsa Lodge.
+        </p>
+      </div>
+
+      <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {
+          imageFiles.map((file) => {
+            const title = formatTitle(file);
+            const src = `/images/coloring/${file}`;
+
+            return (
+              <a
+                href={src}
+                class="group rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+                aria-label={`Open ${title}`}
+              >
+                <div class="aspect-[3/4] overflow-hidden rounded-md bg-slate-50">
+                  <img
+                    src={src}
+                    alt={title}
+                    loading="lazy"
+                    class="h-full w-full object-contain transition duration-200 group-hover:scale-[1.02]"
+                  />
+                </div>
+                <p class="mt-3 truncate text-sm font-medium text-slate-700">
+                  {title}
+                </p>
+              </a>
+            );
+          })
+        }
+      </div>
+    </main>
+  </Container>
+</Layout>
