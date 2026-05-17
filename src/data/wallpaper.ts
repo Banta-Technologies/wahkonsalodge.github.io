@@ -84,6 +84,30 @@ export const wallpaperItems = [
     thumb: "/images/auto/48-chev-pickup-4x4-thumb.png",
   },
   {
+    title: "Beaver",
+    category: "Critters",
+    image: "/images/critters/beaver.png",
+    thumb: "/images/critters/beaver-thumb.png",
+  },
+  {
+    title: "Bison",
+    category: "Critters",
+    image: "/images/critters/bison.png",
+    thumb: "/images/critters/bison-thumb.png",
+  },
+  {
+    title: "Black Bear",
+    category: "Critters",
+    image: "/images/critters/black-bear.png",
+    thumb: "/images/critters/black-bear-thumb.png",
+  },
+  {
+    title: "Bobcat",
+    category: "Critters",
+    image: "/images/critters/bobcat.png",
+    thumb: "/images/critters/bobcat-thumb.png",
+  },
+  {
     title: "Caribou",
     category: "Critters",
     image: "/images/critters/caribou.png",
@@ -100,6 +124,36 @@ export const wallpaperItems = [
     category: "Critters",
     image: "/images/critters/fox-squirrel.png",
     thumb: "/images/critters/fox-squirrel-thumb.png",
+  },
+  {
+    title: "Grizzly",
+    category: "Critters",
+    image: "/images/critters/grizzly.png",
+    thumb: "/images/critters/grizzly-thumb.png",
+  },
+  {
+    title: "Groundhog",
+    category: "Critters",
+    image: "/images/critters/groundhog.png",
+    thumb: "/images/critters/groundhog-thumb.png",
+  },
+  {
+    title: "Otter",
+    category: "Critters",
+    image: "/images/critters/otter.png",
+    thumb: "/images/critters/otter-thumb.png",
+  },
+  {
+    title: "Raccoon",
+    category: "Critters",
+    image: "/images/critters/raccoon.png",
+    thumb: "/images/critters/raccoon-thumb.png",
+  },
+  {
+    title: "Red Fox",
+    category: "Critters",
+    image: "/images/critters/red-fox.png",
+    thumb: "/images/critters/red-fox-thumb.png",
   },
   {
     title: "White-tailed Buck",
