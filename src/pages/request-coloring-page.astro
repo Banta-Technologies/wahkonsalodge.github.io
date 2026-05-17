@@ -235,6 +235,36 @@ A 1970s VW Beetle with flowers`}
                   aria-live="polite"
                 />
 
+                <div
+                  id="student-privacy-panel"
+                  class="hidden rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950"
+                  role="alert"
+                  aria-live="assertive"
+                >
+                  <p class="font-semibold">Student privacy reminder</p>
+                  <p class="mt-2">
+                    Please do not include your full name, school name, address,
+                    phone number, or anything private. If you are under 13,
+                    please ask a parent or teacher to help before submitting.
+                  </p>
+                  <div class="mt-4 flex flex-col gap-3 sm:flex-row">
+                    <button
+                      id="student-privacy-accept"
+                      type="button"
+                      class="inline-flex items-center justify-center rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
+                    >
+                      OK, Submit Request
+                    </button>
+                    <button
+                      id="student-privacy-decline"
+                      type="button"
+                      class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
+                    >
+                      Decline
+                    </button>
+                  </div>
+                </div>
+
                 {turnstileSiteKey && (
                   <div
                     class="cf-turnstile"
@@ -271,6 +301,10 @@ A 1970s VW Beetle with flowers`}
   const form = document.querySelector("#coloring-request-form");
   const message = document.querySelector("#form-message");
   const submitButton = document.querySelector("#submit-button");
+  const studentPrivacyPanel = document.querySelector("#student-privacy-panel");
+  const studentPrivacyAccept = document.querySelector("#student-privacy-accept");
+  const studentPrivacyDecline = document.querySelector("#student-privacy-decline");
+  let studentPrivacyAccepted = false;
 
   function showMessage(text, type) {
     message.textContent = text;
@@ -280,22 +314,16 @@ A 1970s VW Beetle with flowers`}
         : "rounded-lg border border-red-200 bg-red-50 p-4 text-sm leading-6 text-red-950";
   }
 
-  form?.addEventListener("submit", async (event) => {
-    event.preventDefault();
+  function hideStudentPrivacyPanel() {
+    studentPrivacyPanel?.classList.add("hidden");
+  }
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
+  function showStudentPrivacyPanel() {
+    studentPrivacyPanel?.classList.remove("hidden");
+    studentPrivacyAccept?.focus();
+  }
 
-    if (!requestEndpoint) {
-      showMessage(
-        "Something went wrong while sending your request. Please try again later.",
-        "error"
-      );
-      return;
-    }
-
+  async function sendRequest() {
     submitButton.disabled = true;
     submitButton.textContent = "Sending...";
 
@@ -343,5 +371,57 @@ A 1970s VW Beetle with flowers`}
       submitButton.disabled = false;
       submitButton.textContent = "Send Request";
     }
+  }
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    if (!requestEndpoint) {
+      showMessage(
+        "Something went wrong while sending your request. Please try again later.",
+        "error"
+      );
+      return;
+    }
+
+    const formData = new FormData(form);
+    const requesterType = formData.get("requesterType");
+
+    if (requesterType === "Student" && !studentPrivacyAccepted) {
+      showStudentPrivacyPanel();
+      return;
+    }
+
+    hideStudentPrivacyPanel();
+    await sendRequest();
   });
+
+  studentPrivacyAccept?.addEventListener("click", () => {
+    studentPrivacyAccepted = true;
+    hideStudentPrivacyPanel();
+    form?.requestSubmit();
+  });
+
+  studentPrivacyDecline?.addEventListener("click", () => {
+    studentPrivacyAccepted = false;
+    hideStudentPrivacyPanel();
+    showMessage(
+      "No problem. Your request has not been sent.",
+      "error"
+    );
+  });
+
+  form
+    ?.querySelectorAll('input[name="requesterType"]')
+    .forEach((input) => {
+      input.addEventListener("change", () => {
+        studentPrivacyAccepted = false;
+        hideStudentPrivacyPanel();
+      });
+    });
 </script>
