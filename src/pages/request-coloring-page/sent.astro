@@ -1,0 +1,38 @@
+---
+import Container from "@components/container.astro";
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout title="Coloring Page Request Sent">
+  <Container>
+    <main class="py-8">
+      <section class="mx-auto max-w-3xl rounded-lg border border-teal-200 bg-teal-50 p-6 sm:p-8">
+        <p class="text-sm font-semibold uppercase tracking-wide text-teal-700">
+          Request Sent
+        </p>
+        <h1 class="mt-2 text-4xl font-bold tracking-tight text-slate-900">
+          Thanks for the idea!
+        </h1>
+        <p class="mt-4 text-lg leading-8 text-slate-700">
+          Your coloring page request has been received. We review requests and
+          may turn selected ideas into printable coloring pages for Wahkonsa
+          Lodge.
+        </p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          <a
+            href="/request-coloring-page"
+            class="inline-flex items-center justify-center rounded-lg bg-teal-700 px-5 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
+          >
+            Submit Another Request
+          </a>
+          <a
+            href="/coloring"
+            class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-base font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
+          >
+            Go to Coloring Pages
+          </a>
+        </div>
+      </section>
+    </main>
+  </Container>
+</Layout>
