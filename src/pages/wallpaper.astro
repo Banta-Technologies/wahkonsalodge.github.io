@@ -47,13 +47,14 @@ const categories = [
       >
         {
           wallpaperItems.map((item) => (
-            <a
-              href={item.image}
-              download
+            <button
+              type="button"
               data-wallpaper-card
               data-category={item.category}
-              class="group rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
-              aria-label={`Download ${item.title}`}
+              data-image={item.image}
+              data-title={item.title}
+              class="group rounded-lg border border-slate-200 bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+              aria-label={`Preview ${item.title}`}
             >
               <div class="aspect-[4/3] overflow-hidden rounded-md bg-slate-50">
                 <img
@@ -70,19 +71,77 @@ const categories = [
                 {item.category}
               </p>
               <p class="mt-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-center text-xs font-semibold text-teal-700 transition group-hover:border-teal-200 group-hover:bg-teal-50">
-                Download wallpaper
+                View wallpaper
               </p>
-            </a>
+            </button>
           ))
         }
       </div>
     </main>
   </Container>
+
+  <div
+    id="wallpaper-preview"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="wallpaper-preview-title"
+  >
+    <div class="flex max-h-full w-full max-w-5xl flex-col rounded-lg bg-white shadow-2xl">
+      <div
+        class="flex items-center justify-between gap-4 border-b border-slate-200 px-4 py-3 sm:px-5"
+      >
+        <h2
+          id="wallpaper-preview-title"
+          class="min-w-0 truncate text-base font-semibold text-slate-900"
+        >
+          Wallpaper preview
+        </h2>
+        <button
+          type="button"
+          data-wallpaper-close
+          class="rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+        >
+          Close
+        </button>
+      </div>
+
+      <div class="min-h-0 flex-1 bg-slate-100 p-3 sm:p-5">
+        <img
+          id="wallpaper-preview-image"
+          src=""
+          alt=""
+          class="mx-auto max-h-[72vh] w-full object-contain"
+        />
+      </div>
+
+      <div class="flex flex-col gap-3 border-t border-slate-200 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+        <p class="text-sm text-slate-600">
+          Download only starts when you choose the button.
+        </p>
+        <a
+          id="wallpaper-download"
+          href="#"
+          download
+          class="rounded-md bg-teal-700 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-teal-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+        >
+          Download wallpaper
+        </a>
+      </div>
+    </div>
+  </div>
 </Layout>
 
 <script>
   const filterButtons = document.querySelectorAll("[data-wallpaper-filter]");
   const cards = document.querySelectorAll("[data-wallpaper-card]");
+  const preview = document.querySelector("#wallpaper-preview");
+  const previewImage = document.querySelector("#wallpaper-preview-image");
+  const previewTitle = document.querySelector("#wallpaper-preview-title");
+  const downloadLink = document.querySelector("#wallpaper-download");
+  const closeButton = document.querySelector("[data-wallpaper-close]");
+
+  let lastFocusedElement = null;
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -102,5 +161,72 @@ const categories = [
         card.classList.toggle("hidden", !shouldShow);
       });
     });
+  });
+
+  const closePreview = () => {
+    if (
+      !(preview instanceof HTMLElement) ||
+      !(previewImage instanceof HTMLImageElement)
+    ) {
+      return;
+    }
+
+    preview.classList.add("hidden");
+    preview.classList.remove("flex");
+    previewImage.removeAttribute("src");
+    previewImage.alt = "";
+    document.body.classList.remove("overflow-hidden");
+
+    if (lastFocusedElement instanceof HTMLElement) {
+      lastFocusedElement.focus();
+    }
+  };
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      if (
+        !(card instanceof HTMLElement) ||
+        !(preview instanceof HTMLElement) ||
+        !(previewImage instanceof HTMLImageElement) ||
+        !(previewTitle instanceof HTMLElement) ||
+        !(downloadLink instanceof HTMLAnchorElement) ||
+        !(closeButton instanceof HTMLButtonElement)
+      ) {
+        return;
+      }
+
+      const image = card.dataset.image;
+      const title = card.dataset.title;
+
+      if (!image || !title) {
+        return;
+      }
+
+      lastFocusedElement = document.activeElement;
+      previewImage.src = image;
+      previewImage.alt = title;
+      previewTitle.textContent = title;
+      downloadLink.href = image;
+      downloadLink.setAttribute("download", image.split("/").pop() || "");
+
+      preview.classList.remove("hidden");
+      preview.classList.add("flex");
+      document.body.classList.add("overflow-hidden");
+      closeButton.focus();
+    });
+  });
+
+  closeButton?.addEventListener("click", closePreview);
+
+  preview?.addEventListener("click", (event) => {
+    if (event.target === preview) {
+      closePreview();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closePreview();
+    }
   });
 </script>
