@@ -2,52 +2,57 @@
 import Container from "@components/container.astro";
 import Layout from "@layouts/Layout.astro";
 
-const imageFiles = [
-  "babydino.png",
-  "bananasplit.png",
-  "banner-lodge.png",
-  "beach.png",
-  "brontowhutsit.png",
-  "bullfrog.png",
-  "butterfly1.png",
-  "butterfly2.png",
-  "cabin.png",
-  "candybowl.png",
-  "chicken.png",
-  "chickenbanana.png",
-  "coolpepper.png",
-  "fish.png",
-  "fishbowl.png",
-  "flipflopflowers.png",
-  "forestfairy.png",
-  "forestprincess.png",
-  "fosterpickles.png",
-  "mapache.png",
-  "octopus.png",
-  "peaceloveandequality.png",
-  "picklesombrero.png",
-  "piggy.png",
-  "queenofthepickles.png",
-  "rabbit.png",
-  "raptors.png",
-  "samthetomato.png",
-  "sandals.png",
-  "seaturtle.png",
-  "squirrel1.png",
-  "squirrel2.png",
-  "starfish.png",
-  "stegowhutsit.png",
-  "sunflower.png",
-  "sunshine.png",
-  "suntanlotion.png",
-  "t-rex.png",
-  "taco.png",
-  "taquitoprincess.png",
-  "triwhutsit.png",
-  "unicornskateboard.png",
-  "unifrog.png",
-  "urbanprincess.png",
-  "watermelonslice.png",
+const coloringPages = [
+  { file: "babydino.png", category: "Dinosaurs" },
+  { file: "bananasplit.png", category: "Food" },
+  { file: "banner-lodge.png", category: "Wahkonsa Lodge" },
+  { file: "beach.png", category: "Nature" },
+  { file: "brontowhutsit.png", category: "Dinosaurs" },
+  { file: "bullfrog.png", category: "Animals" },
+  { file: "butterfly1.png", category: "Animals" },
+  { file: "butterfly2.png", category: "Animals" },
+  { file: "cabin.png", category: "Nature" },
+  { file: "candybowl.png", category: "Food" },
+  { file: "chicken.png", category: "Animals" },
+  { file: "chickenbanana.png", category: "Silly" },
+  { file: "coolpepper.png", category: "Food" },
+  { file: "fish.png", category: "Animals" },
+  { file: "fishbowl.png", category: "Animals" },
+  { file: "flipflopflowers.png", category: "Nature" },
+  { file: "forestfairy.png", category: "Storybook" },
+  { file: "forestprincess.png", category: "Storybook" },
+  { file: "fosterpickles.png", category: "Silly" },
+  { file: "mapache.png", category: "Animals" },
+  { file: "octopus.png", category: "Animals" },
+  { file: "peaceloveandequality.png", category: "Silly" },
+  { file: "picklesombrero.png", category: "Silly" },
+  { file: "piggy.png", category: "Animals" },
+  { file: "queenofthepickles.png", category: "Silly" },
+  { file: "rabbit.png", category: "Animals" },
+  { file: "raptors.png", category: "Dinosaurs" },
+  { file: "samthetomato.png", category: "Food" },
+  { file: "sandals.png", category: "Summer" },
+  { file: "seaturtle.png", category: "Animals" },
+  { file: "squirrel1.png", category: "Animals" },
+  { file: "squirrel2.png", category: "Animals" },
+  { file: "starfish.png", category: "Animals" },
+  { file: "stegowhutsit.png", category: "Dinosaurs" },
+  { file: "sunflower.png", category: "Nature" },
+  { file: "sunshine.png", category: "Nature" },
+  { file: "suntanlotion.png", category: "Summer" },
+  { file: "t-rex.png", category: "Dinosaurs" },
+  { file: "taco.png", category: "Food" },
+  { file: "taquitoprincess.png", category: "Storybook" },
+  { file: "triwhutsit.png", category: "Dinosaurs" },
+  { file: "unicornskateboard.png", category: "Silly" },
+  { file: "unifrog.png", category: "Silly" },
+  { file: "urbanprincess.png", category: "Storybook" },
+  { file: "watermelonslice.png", category: "Food" },
+];
+
+const categories = [
+  "All",
+  ...Array.from(new Set(coloringPages.map((page) => page.category))).sort(),
 ];
 
 function formatTitle(filename: string) {
@@ -72,15 +77,40 @@ function formatTitle(filename: string) {
         </p>
       </div>
 
-      <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      <div
+        class="mt-6 flex gap-2 overflow-x-auto pb-2"
+        role="list"
+        aria-label="Coloring page categories"
+      >
         {
-          imageFiles.map((file) => {
+          categories.map((category) => (
+            <button
+              type="button"
+              data-category-filter={category}
+              class="shrink-0 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-600 hover:text-teal-700 data-[active=true]:border-teal-700 data-[active=true]:bg-teal-700 data-[active=true]:text-white"
+              aria-pressed={category === "All" ? "true" : "false"}
+              data-active={category === "All" ? "true" : "false"}
+            >
+              {category}
+            </button>
+          ))
+        }
+      </div>
+
+      <div
+        id="coloring-grid"
+        class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
+      >
+        {
+          coloringPages.map(({ file, category }) => {
             const title = formatTitle(file);
             const src = `/images/coloring/${file}`;
 
             return (
               <a
                 href={src}
+                data-coloring-card
+                data-category={category}
                 class="group rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
                 aria-label={`Open ${title}`}
               >
@@ -95,6 +125,9 @@ function formatTitle(filename: string) {
                 <p class="mt-3 truncate text-sm font-medium text-slate-700">
                   {title}
                 </p>
+                <p class="mt-1 text-xs font-medium text-slate-500">
+                  {category}
+                </p>
               </a>
             );
           })
@@ -103,3 +136,28 @@ function formatTitle(filename: string) {
     </main>
   </Container>
 </Layout>
+
+<script>
+  const filterButtons = document.querySelectorAll("[data-category-filter]");
+  const cards = document.querySelectorAll("[data-coloring-card]");
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const selectedCategory = button.getAttribute("data-category-filter");
+
+      filterButtons.forEach((item) => {
+        const isActive = item === button;
+        item.setAttribute("aria-pressed", String(isActive));
+        item.setAttribute("data-active", String(isActive));
+      });
+
+      cards.forEach((card) => {
+        const shouldShow =
+          selectedCategory === "All" ||
+          card.getAttribute("data-category") === selectedCategory;
+
+        card.classList.toggle("hidden", !shouldShow);
+      });
+    });
+  });
+</script>
