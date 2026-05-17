@@ -6,17 +6,45 @@ import "@fontsource-variable/inter/index.css";
 import '@fontsource-variable/bricolage-grotesque';
 
 export interface Props {
-  title: string;
+  title?: string;
+  description?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 const resolvedImageWithDomain = new URL("/opengraph.jpg", Astro.site).toString();
+const defaultDescription =
+  "Wahkonsa Lodge offers free digital art, printable coloring pages, wallpapers, and school-friendly creative ideas from Iowa.";
 
-const { title } = Astro.props;
+const { title, description = defaultDescription } = Astro.props;
 
 const makeTitle = title
   ? title + " | " + "Wahkonsa Lodge"
-  : "Wahkonsa Lodge Unique Art Made Available To The Public";
+  : "Wahkonsa Lodge | Digital Art, Coloring Pages, and Wallpapers";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Wahkonsa Lodge",
+    url: Astro.site?.toString(),
+    description: defaultDescription,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Wahkonsa Lodge",
+    url: Astro.site?.toString(),
+    logo: resolvedImageWithDomain,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: makeTitle,
+    url: canonicalURL,
+    description,
+    image: resolvedImageWithDomain,
+  },
+];
 ---
 
 <!DOCTYPE html>
@@ -30,7 +58,7 @@ const makeTitle = title
     <!-- SEO -->
     <SEO
       title={makeTitle}
-      description="Wahkonsa Lodge Digital Art From Our Neck Of The Woods."
+      description={description}
       canonical={canonicalURL}
       twitter={{
         card: "summary_large_image",
@@ -39,7 +67,7 @@ const makeTitle = title
         basic: {
           url: canonicalURL,
           type: "website",
-          title: `Wahkonsa Lodge- Digital Art From Our Neck Of The Woods in Iowa`,
+          title: makeTitle,
           image: resolvedImageWithDomain,
         },
         image: {
@@ -47,9 +75,7 @@ const makeTitle = title
         },
       }}
     />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wahkonsa Lodge</title>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 
 <!-- Google tag (gtag.js) -->
