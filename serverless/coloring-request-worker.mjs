@@ -50,6 +50,7 @@ export default {
       return json({ error: "Invalid request" }, 400, corsHeaders);
     }
 
+    // Honeypot: bots may fill this hidden field. Return success without sending email.
     if (clean(payload.website)) {
       return json({ ok: true }, 200, corsHeaders);
     }

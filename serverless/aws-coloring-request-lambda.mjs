@@ -55,6 +55,7 @@ export async function handler(event) {
     return json({ error: "Invalid request" }, 400, headers);
   }
 
+  // Honeypot: bots may fill this hidden field. Return success without sending email.
   if (clean(payload.website)) {
     return json({ ok: true }, 200, headers);
   }
