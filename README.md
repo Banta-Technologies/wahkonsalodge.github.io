@@ -165,6 +165,8 @@ cd serverless
 sam deploy --guided --template-file aws-sam-template.yaml
 ```
 
+The SAM template uses the AWS Lambda `nodejs24.x` runtime.
+
 Use these parameter values unless you have a reason to change them:
 
 ```bash

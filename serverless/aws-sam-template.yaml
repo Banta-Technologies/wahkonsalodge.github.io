@@ -33,7 +33,7 @@ Resources:
   ColoringRequestFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: nodejs20.x
+      Runtime: nodejs24.x
       Handler: aws-coloring-request-lambda.handler
       CodeUri: .
       MemorySize: 128
