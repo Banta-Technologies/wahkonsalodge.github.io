@@ -6,11 +6,12 @@ import Hero from "@components/hero.astro";
 import Logos from "@components/logos.astro";
 import Layout from "@layouts/Layout.astro";
 import Critter from "@components/critters.astro";
+import { collectionCopy } from "../data/collections";
 ---
 
 <Layout
-  title="Critter Wallpaper Downloads"
-  description="Browse free critter wallpaper downloads including woodland animals, wildlife, and nature-inspired Wahkonsa Lodge digital art."
+  title={collectionCopy.critters.title}
+  description={collectionCopy.critters.description}
 >
   <Container>
     <Critter />

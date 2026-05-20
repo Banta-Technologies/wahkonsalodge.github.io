@@ -6,11 +6,12 @@ import Hero from "@components/hero.astro";
 import Logos from "@components/logos.astro";
 import Layout from "@layouts/Layout.astro";
 import Animes from "@components/anime.astro";
+import { collectionCopy } from "../data/collections";
 ---
 
 <Layout
-  title="Anime Wallpaper Downloads"
-  description="Browse free Wahkonsa Lodge anime-style wallpaper downloads and digital art for desktop and mobile backgrounds."
+  title={collectionCopy.anime.title}
+  description={collectionCopy.anime.description}
 >
   <Container>
     <Animes />

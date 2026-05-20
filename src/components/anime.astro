@@ -1,63 +1,22 @@
 ---
+import CollectionGallery from "@components/collection-gallery.astro";
+import RelatedCollections from "@components/related-collections.astro";
+import { collectionCopy } from "../data/collections";
+import { wallpaperItems } from "../data/wallpaper";
 
-import Link from "@components/ui/link.astro";
-
+const animeItems = wallpaperItems.filter((item) => item.category === "Anime");
 ---
 
-<main
-  class="grid lg:grid-cols-2 place-items-center pt-16 pb-8 md:pt-12 md:pb-24">
-  <div class="py-6 md:order-1 hidden md:block">
-  
-  </div>
-  <div>
-    <h1
-      class="text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter">
-      Wahkonsa Lodge - Anime
+<main class="py-8">
+  <div class="max-w-3xl">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900">
+      Anime Wallpaper
     </h1>
-    <div>
-    <table style="border-collapse: collapse;">
-   <tr>
-    <td>
-      <a href="/images/anime/12221.png" target="_blank" rel="noopener">
-        <img src="/images/anime/12221-thumb.png" alt="Anime Thumbnail">
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <a href="/images/anime/destroyed-robot.jpeg" target="_blank" rel="noopener">
-        <img src="/images/anime/destroyed-robot-thumb.jpeg" alt="Anime Thumbnail">
-      </a>
-    </td>
-  </tr>
-    <tr>
-    <td>
-      <a href="/images/anime/black_dress.jpg" target="_blank" rel="noopener">
-        <img src="/images/anime/black_dress_thumb.jpg" alt="Anime Thumbnail">
-      </a>
-    </td>
-  </tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-</table>
-</div>
-    
+    <p class="mt-3 text-lg leading-8 text-slate-600">
+      {collectionCopy.anime.intro}
+    </p>
   </div>
+
+  <CollectionGallery items={animeItems} action="View anime wallpaper" />
+  <RelatedCollections currentPath="/anime" />
 </main>

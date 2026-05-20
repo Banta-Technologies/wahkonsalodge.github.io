@@ -6,11 +6,12 @@ import Hero from "@components/hero.astro";
 import Logos from "@components/logos.astro";
 import Layout from "@layouts/Layout.astro";
 import Randoms from "@components/random.astro";
+import { collectionCopy } from "../data/collections";
 ---
 
 <Layout
-  title="Random Digital Art and Wallpaper"
-  description="Browse a mixed collection of Wahkonsa Lodge digital art and wallpaper downloads, from playful images to colorful creative scenes."
+  title={collectionCopy.random.title}
+  description={collectionCopy.random.description}
 >
   <Container>
     <Randoms />

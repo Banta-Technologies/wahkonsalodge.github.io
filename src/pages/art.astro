@@ -1,48 +1,33 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/container.astro";
-import Sectionhead from "@components/sectionhead.astro";
-import PricingCard from "@components/pricing.astro";
+import CollectionGallery from "@components/collection-gallery.astro";
+import RelatedCollections from "@components/related-collections.astro";
+import { collectionCopy } from "../data/collections";
+import { wallpaperItems } from "../data/wallpaper";
+
+const featuredItems = wallpaperItems.filter((item) =>
+  ["Anime", "Lake Scenes", "Pollinators", "Random"].includes(item.category)
+);
 ---
 
 <Layout
-  title="Digital Art Gallery"
-  description="Browse Wahkonsa Lodge digital art collections featuring colorful scenes, characters, wallpaper images, and creative experiments."
+  title={collectionCopy.art.title}
+  description={collectionCopy.art.description}
 >
   <Container>
+    <main class="py-8">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl font-bold tracking-tight text-slate-900">
+          Digital Art Gallery
+        </h1>
+        <p class="mt-3 text-lg leading-8 text-slate-600">
+          {collectionCopy.art.intro}
+        </p>
+      </div>
 
-
-  <div>
- <!---   <h1
-      class="text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter">
-      Wahkonsa Lodge
-    </h1>
---->
-    <p class="text-lg mt-4 text-slate-600 max-w-xl">
-    Digital Art
-<table style="border-collapse: collapse;">
-  <tr><td><img src="/images/anime/1024-MS.jpg"></td></tr>
-  <tr><td><img src="/images/anime/12221.png"></td></tr>
-  <tr><td><img src="/images/anime/315721.png"></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-</table>
-
-  </div
-</Container>
+      <CollectionGallery items={featuredItems} action="View digital art" />
+      <RelatedCollections currentPath="/art" />
+    </main>
+  </Container>
 </Layout>

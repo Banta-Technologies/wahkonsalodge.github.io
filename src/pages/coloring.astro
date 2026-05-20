@@ -1,6 +1,8 @@
 ---
 import Container from "@components/container.astro";
+import RelatedCollections from "@components/related-collections.astro";
 import Layout from "@layouts/Layout.astro";
+import { collectionCopy } from "../data/collections";
 
 const coloringPages = [
   { file: "babydino.png", category: "Dinosaurs" },
@@ -74,8 +76,8 @@ function formatTitle(filename: string) {
 ---
 
 <Layout
-  title="Free Printable Coloring Pages"
-  description="Browse free printable Wahkonsa Lodge coloring pages featuring animals, birds, nature scenes, silly characters, food, dinosaurs, and storybook art."
+  title={collectionCopy.coloring.title}
+  description={collectionCopy.coloring.description}
 >
   <Container>
     <main class="py-8">
@@ -83,8 +85,8 @@ function formatTitle(filename: string) {
         <h1 class="text-4xl font-bold tracking-tight text-slate-900">
           Coloring Book
         </h1>
-        <p class="mt-3 text-lg text-slate-600">
-          Printable coloring pages from Wahkonsa Lodge.
+        <p class="mt-3 text-lg leading-8 text-slate-600">
+          {collectionCopy.coloring.intro}
         </p>
       </div>
 
@@ -130,7 +132,7 @@ function formatTitle(filename: string) {
                 <div class="aspect-[3/4] overflow-hidden rounded-md bg-slate-50">
                   <img
                     src={src}
-                    alt={title}
+                    alt={`${title} printable coloring page`}
                     loading="lazy"
                     class="h-full w-full object-contain transition duration-200 group-hover:scale-[1.02]"
                   />
@@ -149,6 +151,7 @@ function formatTitle(filename: string) {
           })
         }
       </div>
+      <RelatedCollections currentPath="/coloring" />
     </main>
   </Container>
 </Layout>

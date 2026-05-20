@@ -6,11 +6,12 @@ import Hero from "@components/hero.astro";
 import Logos from "@components/logos.astro";
 import Layout from "@layouts/Layout.astro";
 import Ship from "@components/ships.astro";
+import { collectionCopy } from "../data/collections";
 ---
 
 <Layout
-  title="Ship Wallpaper Downloads"
-  description="Browse free ship wallpaper downloads including historic ships, ocean liners, naval vessels, sailing scenes, and ocean digital art."
+  title={collectionCopy.ships.title}
+  description={collectionCopy.ships.description}
 >
   <Container>
     <Ship />

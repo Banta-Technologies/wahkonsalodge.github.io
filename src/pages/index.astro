@@ -5,11 +5,66 @@ import Features from "@components/features.astro";
 import Hero from "@components/hero.astro";
 import Logos from "@components/logos.astro";
 import Layout from "@layouts/Layout.astro";
+import { collectionCopy } from "../data/collections";
 ---
 
 <Layout description="Explore Wahkonsa Lodge free printable coloring pages, wallpaper downloads, digital art, lake scenes, birds, critters, ships, anime art, and classic cars.">
   <Container>
     <Hero />
+    <section class="mx-auto max-w-4xl pb-12" aria-labelledby="home-collections-title">
+      <h1
+        id="home-collections-title"
+        class="text-4xl font-bold tracking-tight text-slate-900"
+      >
+        Free Coloring Pages, Wallpaper, and Digital Art
+      </h1>
+      <p class="mt-4 text-lg leading-8 text-slate-600">
+        Wahkonsa Lodge is a free creative library with printable coloring pages,
+        wallpaper downloads, and digital art collections. Browse school-friendly
+        coloring sheets, Midwest lake scenes, bird and pollinator wallpapers,
+        woodland animal images, historic ships, classic cars, motorcycles, and
+        anime-style backgrounds.
+      </p>
+
+      <div class="mt-8 grid gap-4 md:grid-cols-3">
+        <a
+          href="/coloring"
+          class="rounded-lg border border-slate-200 bg-white p-5 transition hover:border-teal-200 hover:bg-teal-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+        >
+          <h2 class="text-lg font-semibold text-slate-900">
+            {collectionCopy.coloring.title}
+          </h2>
+          <p class="mt-2 text-sm leading-6 text-slate-600">
+            Animals, dinosaurs, food, nature, birds, and silly printable pages
+            for kids, families, and classrooms.
+          </p>
+        </a>
+        <a
+          href="/wallpaper"
+          class="rounded-lg border border-slate-200 bg-white p-5 transition hover:border-teal-200 hover:bg-teal-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+        >
+          <h2 class="text-lg font-semibold text-slate-900">
+            {collectionCopy.wallpaper.title}
+          </h2>
+          <p class="mt-2 text-sm leading-6 text-slate-600">
+            Free backgrounds for phones, tablets, and desktops, organized by
+            subject and easy to preview.
+          </p>
+        </a>
+        <a
+          href="/request-coloring-page"
+          class="rounded-lg border border-slate-200 bg-white p-5 transition hover:border-teal-200 hover:bg-teal-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+        >
+          <h2 class="text-lg font-semibold text-slate-900">
+            Request a Coloring Page
+          </h2>
+          <p class="mt-2 text-sm leading-6 text-slate-600">
+            Suggest a school-friendly coloring page idea for a future Wahkonsa
+            Lodge printable.
+          </p>
+        </a>
+      </div>
+    </section>
     <!-- <Features />
     <Logos />
     <Cta /> -->

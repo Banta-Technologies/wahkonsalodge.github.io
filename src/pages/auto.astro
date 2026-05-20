@@ -6,11 +6,12 @@ import Hero from "@components/hero.astro";
 import Logos from "@components/logos.astro";
 import Layout from "@layouts/Layout.astro";
 import Autos from "@components/auto.astro";
+import { collectionCopy } from "../data/collections";
 ---
 
 <Layout
-  title="Classic Car Wallpaper Downloads"
-  description="Browse free classic car wallpaper downloads including vintage Pontiac, Shelby, Dodge, Plymouth, Chevrolet, AMC, and Oldsmobile images."
+  title={collectionCopy.auto.title}
+  description={collectionCopy.auto.description}
 >
   <Container>
     <Autos />
