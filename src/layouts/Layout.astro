@@ -8,18 +8,41 @@ import '@fontsource-variable/bricolage-grotesque';
 export interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
-const resolvedImageWithDomain = new URL("/opengraph.jpg", Astro.site).toString();
 const defaultDescription =
-  "Wahkonsa Lodge offers free digital art, printable coloring pages, wallpapers, and school-friendly creative ideas from Iowa.";
+  "Wahkonsa Lodge offers free printable coloring pages, wallpaper downloads, digital art, and school-friendly creative ideas.";
 
-const { title, description = defaultDescription } = Astro.props;
+const {
+  title,
+  description = defaultDescription,
+  image = "/opengraph.jpg",
+  imageAlt = "Wahkonsa Lodge printable coloring pages and digital art",
+  type = "website",
+  noindex = false,
+  publishedTime,
+  modifiedTime,
+  author,
+  tags = [],
+} = Astro.props;
+
+const defaultImageWithDomain = new URL("/opengraph.jpg", Astro.site).toString();
+const resolvedImageWithDomain = new URL(image, Astro.site).toString();
 
 const makeTitle = title
   ? title + " | " + "Wahkonsa Lodge"
-  : "Wahkonsa Lodge | Digital Art, Coloring Pages, and Wallpapers";
+  : "Wahkonsa Lodge | Free Coloring Pages, Wallpaper, and Digital Art";
+
+const pageSchemaType = type === "article" ? "BlogPosting" : "WebPage";
 
 const structuredData = [
   {
@@ -34,15 +57,20 @@ const structuredData = [
     "@type": "Organization",
     name: "Wahkonsa Lodge",
     url: Astro.site?.toString(),
-    logo: resolvedImageWithDomain,
+    logo: defaultImageWithDomain,
   },
   {
     "@context": "https://schema.org",
-    "@type": "WebPage",
+    "@type": pageSchemaType,
     name: makeTitle,
+    headline: makeTitle,
     url: canonicalURL,
     description,
     image: resolvedImageWithDomain,
+    ...(author ? { author: { "@type": "Person", name: author } } : {}),
+    ...(publishedTime ? { datePublished: publishedTime } : {}),
+    ...(modifiedTime ? { dateModified: modifiedTime } : {}),
+    ...(tags.length ? { keywords: tags.join(", ") } : {}),
   },
 ];
 ---
@@ -60,19 +88,44 @@ const structuredData = [
       title={makeTitle}
       description={description}
       canonical={canonicalURL}
+      noindex={noindex}
+      robotsExtras="max-snippet:-1, max-image-preview:large, max-video-preview:-1"
       twitter={{
         card: "summary_large_image",
+        title: makeTitle,
+        description,
+        image: resolvedImageWithDomain,
+        imageAlt,
       }}
       openGraph={{
         basic: {
           url: canonicalURL,
-          type: "website",
+          type,
           title: makeTitle,
           image: resolvedImageWithDomain,
         },
-        image: {
-          alt: "Wahkonsa Lodge banner",
+        optional: {
+          description,
+          locale: "en_US",
+          siteName: "Wahkonsa Lodge",
         },
+        image: {
+          secureUrl: resolvedImageWithDomain,
+          type: "image/jpeg",
+          width: 1200,
+          height: 630,
+          alt: imageAlt,
+        },
+        ...(type === "article"
+          ? {
+              article: {
+                publishedTime,
+                modifiedTime,
+                authors: author ? [author] : undefined,
+                tags,
+              },
+            }
+          : {}),
       }}
     />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

@@ -6,7 +6,17 @@ import Layout from "./Layout.astro";
 const { frontmatter } = Astro.props;
 ---
 
-<Layout title={frontmatter.title}>
+<Layout
+  title={frontmatter.title}
+  description={frontmatter.snippet}
+  image={frontmatter.image?.src}
+  imageAlt={frontmatter.image?.alt}
+  type="article"
+  publishedTime={new Date(frontmatter.publishDate).toISOString()}
+  modifiedTime={new Date(frontmatter.publishDate).toISOString()}
+  author={frontmatter.author}
+  tags={frontmatter.tags}
+>
   <Container>
     <div class="mx-auto max-w-[735px] mt-14">
       <span class="text-blue-400 uppercase tracking-wider text-sm font-medium">

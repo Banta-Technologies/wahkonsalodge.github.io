@@ -8,5 +8,15 @@ import icon from "astro-icon";
 export default defineConfig({
   site: 'https://wahkonsalodge.com',
   base: '/',
-  integrations: [tailwind(), mdx(), sitemap(), icon()],
+  integrations: [
+    tailwind(),
+    mdx(),
+    sitemap({
+      filter: (page) =>
+        !page.endsWith('/404.html') &&
+        !page.endsWith('/404/') &&
+        !page.endsWith('/request-coloring-page/sent/'),
+    }),
+    icon(),
+  ],
 });
