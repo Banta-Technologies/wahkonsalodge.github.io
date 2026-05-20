@@ -136,6 +136,8 @@ const categories = [
 </Layout>
 
 <script>
+  import { trackWallpaperDownload, trackWallpaperView } from "../utils/ga4";
+
   const filterButtons = document.querySelectorAll("[data-wallpaper-filter]");
   const cards = document.querySelectorAll("[data-wallpaper-card]");
   const preview = document.querySelector("#wallpaper-preview");
@@ -145,6 +147,7 @@ const categories = [
   const closeButton = document.querySelector("[data-wallpaper-close]");
 
   let lastFocusedElement = null;
+  let selectedWallpaper = null;
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -178,6 +181,7 @@ const categories = [
     preview.classList.remove("flex");
     previewImage.removeAttribute("src");
     previewImage.alt = "";
+    selectedWallpaper = null;
     document.body.classList.remove("overflow-hidden");
 
     if (lastFocusedElement instanceof HTMLElement) {
@@ -200,11 +204,13 @@ const categories = [
 
       const image = card.dataset.image;
       const title = card.dataset.title;
+      const category = card.dataset.category;
 
-      if (!image || !title) {
+      if (!image || !title || !category) {
         return;
       }
 
+      selectedWallpaper = { image, title, category };
       lastFocusedElement = document.activeElement;
       previewImage.src = image;
       previewImage.alt = title;
@@ -216,7 +222,21 @@ const categories = [
       preview.classList.add("flex");
       document.body.classList.add("overflow-hidden");
       closeButton.focus();
+
+      trackWallpaperView(image, title, category);
     });
+  });
+
+  downloadLink?.addEventListener("click", () => {
+    if (!selectedWallpaper) {
+      return;
+    }
+
+    trackWallpaperDownload(
+      selectedWallpaper.image,
+      selectedWallpaper.title,
+      selectedWallpaper.category,
+    );
   });
 
   closeButton?.addEventListener("click", closePreview);

@@ -9,3 +9,11 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface Window {
+  gtag?: (
+    command: "event",
+    eventName: string,
+    parameters?: Record<string, string>,
+  ) => void;
+}

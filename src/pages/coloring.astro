@@ -122,6 +122,8 @@ function formatTitle(filename: string) {
                 href={src}
                 data-coloring-card
                 data-category={category}
+                data-image={src}
+                data-title={title}
                 class="group rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
                 aria-label={`Open ${title}`}
               >
@@ -152,6 +154,8 @@ function formatTitle(filename: string) {
 </Layout>
 
 <script>
+  import { trackColoringPageOpen } from "../utils/ga4";
+
   const filterButtons = document.querySelectorAll("[data-category-filter]");
   const cards = document.querySelectorAll("[data-coloring-card]");
 
@@ -172,6 +176,20 @@ function formatTitle(filename: string) {
 
         card.classList.toggle("hidden", !shouldShow);
       });
+    });
+  });
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      if (!(card instanceof HTMLAnchorElement)) {
+        return;
+      }
+
+      const image = card.dataset.image || card.href;
+      const title = card.dataset.title;
+      const category = card.dataset.category;
+
+      trackColoringPageOpen(image, title, category);
     });
   });
 </script>
