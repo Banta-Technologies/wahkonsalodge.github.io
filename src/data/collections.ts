@@ -2,9 +2,9 @@ export const collectionCopy = {
   wallpaper: {
     title: "Free Wallpaper Downloads",
     description:
-      "Download free Wahkonsa Lodge wallpapers for phones, tablets, and desktop screens, including Midwest lake scenes, birds, pollinators, woodland animals, historic ships, classic cars, motorcycles, and anime-style digital art.",
+      "Download free Wahkonsa Lodge wallpapers for phones, tablets, and desktop screens, including Midwest lake scenes, birds, pollinators, enchanted nature scenes, woodland animals, historic ships, classic cars, motorcycles, and anime-style digital art.",
     intro:
-      "Browse free wallpaper downloads from Wahkonsa Lodge, organized by subject so it is easy to find an image that fits your screen and mood. The collection includes peaceful Midwest lake scenes, birds, pollinators, woodland animals, historic ships, classic cars, motorcycles, and anime-style digital art for phones, tablets, and desktops.",
+      "Browse free wallpaper downloads from Wahkonsa Lodge, organized by subject so it is easy to find an image that fits your screen and mood. The collection includes peaceful Midwest lake scenes, birds, pollinators, enchanted nature scenes, woodland animals, historic ships, classic cars, motorcycles, and anime-style digital art for phones, tablets, and desktops.",
   },
   coloring: {
     title: "Free Printable Coloring Pages",
