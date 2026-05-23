@@ -19,16 +19,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install, build, and upload your site
-        uses: withastro/action@v2
+        uses: withastro/action@v6
         env:
           PUBLIC_COLORING_REQUEST_ENDPOINT: ${{ vars.PUBLIC_COLORING_REQUEST_ENDPOINT }}
           PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY }}
         with:
           # path: . # The root location of your Astro project inside the repository. (optional)
-          node-version: 20 # The specific version of Node that should be used to build your site.
-          package-manager: pnpm@10 # Keep pnpm on the current major until this site moves to Node 22.
+          node-version: 24 # The specific version of Node that should be used to build your site.
+          package-manager: pnpm@10 # Keep pnpm on the current major.
 
   deploy:
     needs: build
@@ -39,4 +39,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
