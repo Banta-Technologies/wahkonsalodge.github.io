@@ -2,9 +2,9 @@ export const collectionCopy = {
   wallpaper: {
     title: "Free Wallpaper Downloads",
     description:
-      "Download free Wahkonsa Lodge wallpapers for phones, tablets, and desktop screens, including Midwest lake scenes, birds, pollinators, enchanted nature scenes, woodland animals, historic ships, classic cars, motorcycles, and anime-style digital art.",
+      "Download free Wahkonsa Lodge wallpapers for phones, tablets, and desktop screens, including Midwest lake scenes, birds, pollinators, enchanted nature scenes, woodland animals, historic ships, classic cars, and motorcycles.",
     intro:
-      "Browse free wallpaper downloads from Wahkonsa Lodge, organized by subject so it is easy to find an image that fits your screen and mood. The collection includes peaceful Midwest lake scenes, birds, pollinators, enchanted nature scenes, woodland animals, historic ships, classic cars, motorcycles, and anime-style digital art for phones, tablets, and desktops.",
+      "Browse free wallpaper downloads from Wahkonsa Lodge, organized by subject so it is easy to find an image that fits your screen and mood. The collection includes peaceful Midwest lake scenes, birds, pollinators, enchanted nature scenes, woodland animals, historic ships, classic cars, and motorcycles for phones, tablets, and desktops.",
   },
   coloring: {
     title: "Free Printable Coloring Pages",
@@ -12,13 +12,6 @@ export const collectionCopy = {
       "Browse free printable Wahkonsa Lodge coloring pages featuring animals, birds, nature scenes, silly characters, food, dinosaurs, and storybook art for kids, families, and classrooms.",
     intro:
       "Print free Wahkonsa Lodge coloring pages for kids, families, teachers, and classroom activities. The collection includes animals, birds, nature scenes, dinosaurs, food, summer themes, storybook characters, and silly drawings that are easy to open and print.",
-  },
-  anime: {
-    title: "Anime Wallpaper Downloads",
-    description:
-      "Browse free anime-style wallpaper downloads with rainy city scenes, neon streets, cherry blossoms, lantern markets, rooftops, harbors, and character portraits.",
-    intro:
-      "Download free anime-style wallpapers featuring rainy alleys, neon city streets, cherry blossoms, lantern markets, rooftops, harbors, umbrellas, and character portraits. These digital art images work well as phone, tablet, or desktop backgrounds.",
   },
   auto: {
     title: "Classic Car Wallpaper Downloads",
@@ -61,7 +54,7 @@ export const relatedCollections = [
   {
     title: "Free Wallpaper Downloads",
     href: "/wallpaper",
-    text: "Browse birds, lake scenes, cars, ships, animals, motorcycles, and anime art.",
+    text: "Browse birds, lake scenes, cars, ships, animals, motorcycles, and enchanted nature scenes.",
   },
   {
     title: "Printable Coloring Pages",
