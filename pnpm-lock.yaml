@@ -61,6 +61,10 @@ importers:
       tailwindcss:
         specifier: ^3.4.19
         version: 3.4.19
+    devDependencies:
+      prettier:
+        specifier: ^3.8.3
+        version: 3.8.3
 
 packages:
 

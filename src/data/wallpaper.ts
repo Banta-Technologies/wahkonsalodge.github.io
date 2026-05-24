@@ -428,7 +428,8 @@ export const wallpaperItems = [
   {
     title: "Triumph Bonneville T120 Style - United Kingdom",
     category: "Motorcycles",
-    image: "/images/motorcycles/triumph-bonneville-t120-style-united-kingdom.png",
+    image:
+      "/images/motorcycles/triumph-bonneville-t120-style-united-kingdom.png",
     thumb:
       "/images/motorcycles/triumph-bonneville-t120-style-united-kingdom-thumb.png",
   },
@@ -440,7 +441,8 @@ export const wallpaperItems = [
       "/images/motorcycles/vincent-black-shadow-style-united-kingdom-thumb.png",
   },
   {
-    title: "Harley-Davidson Knucklehead / Early Hydra-Glide Style - United States",
+    title:
+      "Harley-Davidson Knucklehead / Early Hydra-Glide Style - United States",
     category: "Motorcycles",
     image:
       "/images/motorcycles/harley-davidson-knucklehead-early-hydra-glide-style-united-states.png",
