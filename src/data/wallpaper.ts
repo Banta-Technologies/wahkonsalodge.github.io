@@ -479,6 +479,76 @@ export const wallpaperItems = [
     thumb: "/images/motorcycles/bmw-r90s-style-germany-thumb.png",
   },
   {
+    title: "Early Motor Bicycle - Prairie Sunset",
+    category: "Motorcycles",
+    image: "/images/motorcycles/early-motor-bicycle-prairie-sunset.png",
+    thumb: "/images/motorcycles/early-motor-bicycle-prairie-sunset-thumb.png",
+  },
+  {
+    title: "Daimler-Maybach Reitwagen",
+    category: "Motorcycles",
+    image: "/images/motorcycles/daimler-maybach-reitwagen.png",
+    thumb: "/images/motorcycles/daimler-maybach-reitwagen-thumb.png",
+  },
+  {
+    title: "Early Motorcycle - Rustic Barn",
+    category: "Motorcycles",
+    image: "/images/motorcycles/early-motorcycle-rustic-barn.png",
+    thumb: "/images/motorcycles/early-motorcycle-rustic-barn-thumb.png",
+  },
+  {
+    title: "Board Track Racer - Wooden Track",
+    category: "Motorcycles",
+    image: "/images/motorcycles/board-track-racer-wooden-track.png",
+    thumb: "/images/motorcycles/board-track-racer-wooden-track-thumb.png",
+  },
+  {
+    title: "Flying Merkel Board Tracker Style - United States",
+    category: "Motorcycles",
+    image:
+      "/images/motorcycles/flying-merkel-board-tracker-style-united-states.png",
+    thumb:
+      "/images/motorcycles/flying-merkel-board-tracker-style-united-states-thumb.png",
+  },
+  {
+    title: "Henderson Four Style - United States",
+    category: "Motorcycles",
+    image: "/images/motorcycles/henderson-four-style-united-states.png",
+    thumb: "/images/motorcycles/henderson-four-style-united-states-thumb.png",
+  },
+  {
+    title: "BMW R32 Style - Germany",
+    category: "Motorcycles",
+    image: "/images/motorcycles/bmw-r32-style-germany.png",
+    thumb: "/images/motorcycles/bmw-r32-style-germany-thumb.png",
+  },
+  {
+    title: "Brough Superior SS100 Style - United Kingdom",
+    category: "Motorcycles",
+    image: "/images/motorcycles/brough-superior-ss100-style-united-kingdom.png",
+    thumb:
+      "/images/motorcycles/brough-superior-ss100-style-united-kingdom-thumb.png",
+  },
+  {
+    title: "Vincent Black Shadow - Desert Sunset",
+    category: "Motorcycles",
+    image: "/images/motorcycles/vincent-black-shadow-desert-sunset.png",
+    thumb: "/images/motorcycles/vincent-black-shadow-desert-sunset-thumb.png",
+  },
+  {
+    title: "Harley-Davidson Knucklehead - Brick Factory",
+    category: "Motorcycles",
+    image: "/images/motorcycles/harley-davidson-knucklehead-brick-factory.png",
+    thumb:
+      "/images/motorcycles/harley-davidson-knucklehead-brick-factory-thumb.png",
+  },
+  {
+    title: "Vincent Black Shadow - Country Road",
+    category: "Motorcycles",
+    image: "/images/motorcycles/vincent-black-shadow-country-road.png",
+    thumb: "/images/motorcycles/vincent-black-shadow-country-road-thumb.png",
+  },
+  {
     title: "Beaver",
     category: "Critters",
     image: "/images/critters/beaver.png",
