@@ -815,6 +815,18 @@ export const wallpaperItems = [
     thumb: "/images/magik/enchanted-cobweb-garden-thumb.png",
   },
   {
+    title: "Crystal Wing Dragon Waterfall",
+    category: "Dragons",
+    image: "/images/dragons/crystal-wing-dragon-waterfall.png",
+    thumb: "/images/dragons/crystal-wing-dragon-waterfall-thumb.png",
+  },
+  {
+    title: "Midnight Wing Dragon Waterfall",
+    category: "Dragons",
+    image: "/images/dragons/midnight-wing-dragon-waterfall.png",
+    thumb: "/images/dragons/midnight-wing-dragon-waterfall-thumb.png",
+  },
+  {
     title: "Random One",
     category: "Random",
     image: "/images/random/random1.png",

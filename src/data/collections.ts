@@ -2,9 +2,9 @@ export const collectionCopy = {
   wallpaper: {
     title: "Free Wallpaper Downloads",
     description:
-      "Download free Wahkonsa Lodge wallpapers for phones, tablets, and desktop screens, including Midwest lake scenes, birds, pollinators, enchanted nature scenes, woodland animals, historic ships, classic cars, and motorcycles.",
+      "Download free Wahkonsa Lodge wallpapers for phones, tablets, and desktop screens, including Midwest lake scenes, birds, pollinators, dragons, enchanted nature scenes, woodland animals, historic ships, classic cars, and motorcycles.",
     intro:
-      "Browse free wallpaper downloads from Wahkonsa Lodge, organized by subject so it is easy to find an image that fits your screen and mood. The collection includes peaceful Midwest lake scenes, birds, pollinators, enchanted nature scenes, woodland animals, historic ships, classic cars, and motorcycles for phones, tablets, and desktops.",
+      "Browse free wallpaper downloads from Wahkonsa Lodge, organized by subject so it is easy to find an image that fits your screen and mood. The collection includes peaceful Midwest lake scenes, birds, pollinators, dragons, enchanted nature scenes, woodland animals, historic ships, classic cars, and motorcycles for phones, tablets, and desktops.",
   },
   coloring: {
     title: "Free Printable Coloring Pages",
@@ -54,7 +54,7 @@ export const relatedCollections = [
   {
     title: "Free Wallpaper Downloads",
     href: "/wallpaper",
-    text: "Browse birds, lake scenes, cars, ships, animals, motorcycles, and enchanted nature scenes.",
+    text: "Browse birds, lake scenes, dragons, cars, ships, animals, motorcycles, and enchanted nature scenes.",
   },
   {
     title: "Printable Coloring Pages",
