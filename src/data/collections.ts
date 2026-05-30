@@ -2,9 +2,9 @@ export const collectionCopy = {
   wallpaper: {
     title: "Free Wallpaper Downloads",
     description:
-      "Download free Wahkonsa Lodge wallpapers for phones, tablets, and desktop screens, including Midwest lake scenes, birds, pollinators, dragons, enchanted nature scenes, woodland animals, historic ships, classic cars, and motorcycles.",
+      "Download free Wahkonsa Lodge wallpapers for phones, tablets, and desktop screens, including Midwest lake scenes, birds, pollinators, dragons, enchanted nature scenes, woodland animals, classic cars, and motorcycles.",
     intro:
-      "Browse free wallpaper downloads from Wahkonsa Lodge, organized by subject so it is easy to find an image that fits your screen and mood. The collection includes peaceful Midwest lake scenes, birds, pollinators, dragons, enchanted nature scenes, woodland animals, historic ships, classic cars, and motorcycles for phones, tablets, and desktops.",
+      "Browse free wallpaper downloads from Wahkonsa Lodge, organized by subject so it is easy to find an image that fits your screen and mood. The collection includes peaceful Midwest lake scenes, birds, pollinators, dragons, enchanted nature scenes, woodland animals, classic cars, and motorcycles for phones, tablets, and desktops.",
   },
   coloring: {
     title: "Free Printable Coloring Pages",
@@ -27,13 +27,6 @@ export const collectionCopy = {
     intro:
       "Download free critter wallpapers with woodland animals and wildlife-inspired digital art. This collection includes beaver, bison, black bear, bobcat, caribou, fox squirrel, groundhog, otter, red fox, wolf, and other animal images for screens.",
   },
-  ships: {
-    title: "Ship Wallpaper Downloads",
-    description:
-      "Browse free ship wallpaper downloads including historic ships, ocean liners, naval vessels, sailing scenes, and ocean digital art.",
-    intro:
-      "Browse free ship wallpapers featuring historic vessels, ocean liners, naval ships, sailing scenes, and maritime digital art. Images include ships inspired by Cutty Sark, Endurance, HMS Victory, Mayflower, Titanic, USS Constitution, USS Missouri, and Viking longships.",
-  },
   random: {
     title: "Random Digital Art and Wallpaper",
     description:
@@ -54,7 +47,7 @@ export const relatedCollections = [
   {
     title: "Free Wallpaper Downloads",
     href: "/wallpaper",
-    text: "Browse birds, lake scenes, dragons, cars, ships, animals, motorcycles, and enchanted nature scenes.",
+    text: "Browse birds, lake scenes, dragons, cars, animals, motorcycles, and enchanted nature scenes.",
   },
   {
     title: "Printable Coloring Pages",
