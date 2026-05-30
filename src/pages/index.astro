@@ -6,9 +6,14 @@ import Hero from "@components/hero.astro";
 import Logos from "@components/logos.astro";
 import Layout from "@layouts/Layout.astro";
 import { collectionCopy } from "../data/collections";
+
+const homeDescription =
+  "Explore free Wahkonsa Lodge coloring pages, wallpapers, Midwest lake life, nature, fishing, birds, pollinators, classic cars, motorcycles, and family-friendly digital art.";
 ---
 
-<Layout description="Explore Wahkonsa Lodge free printable coloring pages, wallpaper downloads, digital art, lake scenes, birds, critters, enchanted nature scenes, and classic cars.">
+<Layout
+  description={homeDescription}
+>
   <Container>
     <Hero />
     <section class="mx-auto max-w-4xl pb-12" aria-labelledby="home-collections-title">
@@ -19,11 +24,12 @@ import { collectionCopy } from "../data/collections";
         Free Coloring Pages, Wallpaper, and Digital Art
       </h1>
       <p class="mt-4 text-lg leading-8 text-slate-600">
-        Wahkonsa Lodge is a free creative library with printable coloring pages,
-        wallpaper downloads, and digital art collections. Browse school-friendly
-        coloring sheets, Midwest lake scenes, bird and pollinator wallpapers,
-        woodland animal images, classic cars, motorcycles, and
-        enchanted nature backgrounds.
+        Wahkonsa Lodge is a family-friendly creative library inspired by Midwest
+        lake life, old river paths, woodland trails, fishing docks, birds,
+        pollinators, classic cars, motorcycles, and quiet moments outdoors.
+        Explore free printable coloring pages, phone and desktop wallpapers, and
+        rustic digital art collections made for kids, families, classrooms, and
+        anyone who enjoys peaceful lodge-style imagery.
       </p>
 
       <div class="mt-8 grid gap-4 md:grid-cols-3">
@@ -35,8 +41,8 @@ import { collectionCopy } from "../data/collections";
             {collectionCopy.coloring.title}
           </h2>
           <p class="mt-2 text-sm leading-6 text-slate-600">
-            Animals, dinosaurs, food, nature, birds, and silly printable pages
-            for kids, families, and classrooms.
+            Birds, flowers, wildlife, nature scenes, dinosaurs, food, and silly
+            printable pages for kids, families, and classrooms.
           </p>
         </a>
         <a
@@ -47,8 +53,8 @@ import { collectionCopy } from "../data/collections";
             {collectionCopy.wallpaper.title}
           </h2>
           <p class="mt-2 text-sm leading-6 text-slate-600">
-            Free backgrounds for phones, tablets, and desktops, organized by
-            subject and easy to preview.
+            Free backgrounds for phones, tablets, and desktops with shorelines,
+            woodland trails, birds, pollinators, cars, and motorcycles.
           </p>
         </a>
         <a

@@ -21,13 +21,13 @@ export interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 const defaultDescription =
-  "Wahkonsa Lodge offers free printable coloring pages, wallpaper downloads, digital art, and school-friendly creative ideas.";
+  "Wahkonsa Lodge offers free coloring pages, wallpapers, Midwest lake life, nature, fishing, birds, pollinators, classic cars, motorcycles, and family-friendly digital art.";
 
 const {
   title,
   description = defaultDescription,
   image = "/opengraph.jpg",
-  imageAlt = "Wahkonsa Lodge printable coloring pages and digital art",
+  imageAlt = "Wahkonsa Lodge family-friendly coloring pages, wallpapers, and rustic digital art",
   type = "website",
   noindex = false,
   publishedTime,
@@ -152,6 +152,12 @@ const structuredData = [
       /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
       img {
         content-visibility: auto;
+      }
+
+      body {
+        background:
+          linear-gradient(180deg, rgba(250, 247, 239, 0.86), rgba(255, 255, 255, 0.96) 28rem),
+          #fff;
       }
     </style>
 

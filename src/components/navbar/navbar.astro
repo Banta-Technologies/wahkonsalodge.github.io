@@ -49,10 +49,25 @@ const menuitems = [
   <header class="flex flex-col lg:flex-row justify-between items-center my-5">
     <Astronav>
       <div class="flex w-full lg:w-auto items-center justify-between">
-        <a href="/" class="text-lg"
-          ><span class="font-bold text-slate-800">Wahkonsa Lodge</span><span
-            class="text-slate-500">Home</span
+        <a
+          href="/"
+          class="flex items-center gap-3 text-lg"
+          aria-label="Wahkonsa Lodge Home"
+        >
+          <span
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-amber-900/20 bg-amber-900 text-base font-bold text-amber-50 shadow-sm"
+            aria-hidden="true"
           >
+            W
+          </span>
+          <span>
+            <span class="block font-bold leading-5 text-slate-900">
+              Wahkonsa Lodge
+            </span>
+            <span class="block text-sm leading-4 text-slate-500">
+              Midwest art and lake life
+            </span>
+          </span>
         </a>
         <div class="block lg:hidden">
           <MenuIcon class="w-4 h-4 text-gray-800" />
