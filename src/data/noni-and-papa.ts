@@ -1,4 +1,9 @@
 export const noniAndPapaItems = [
+  {
+    title: "No Regrets",
+    image: "/images/noni-and-papa/no-regrets.png",
+    thumb: "/images/noni-and-papa/thumbs/no-regrets.png",
+  },
   // Add images here after placing files in:
   // - public/images/noni-and-papa/
   // - public/images/noni-and-papa/thumbs/
@@ -10,4 +15,3 @@ export const noniAndPapaItems = [
   //   thumb: "/images/noni-and-papa/thumbs/fishing-at-the-lake.png",
   // },
 ] as const;
-
