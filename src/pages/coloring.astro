@@ -128,6 +128,7 @@ function formatTitle(filename: string) {
           coloringPages.map(({ file, category }) => {
             const title = formatTitle(file);
             const src = `/images/coloring/${file}`;
+            const thumb = `/images/coloring/thumbs/${file}`;
 
             return (
               <a
@@ -141,7 +142,7 @@ function formatTitle(filename: string) {
               >
                 <div class="aspect-[3/4] overflow-hidden rounded-md bg-slate-50">
                   <img
-                    src={src}
+                    src={thumb}
                     alt={`${title} printable coloring page`}
                     loading="lazy"
                     class="h-full w-full object-contain transition duration-200 group-hover:scale-[1.02]"
