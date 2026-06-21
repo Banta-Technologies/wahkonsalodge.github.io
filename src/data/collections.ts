@@ -55,6 +55,11 @@ export const relatedCollections = [
     text: "Open school-friendly coloring pages for animals, dinosaurs, food, and nature.",
   },
   {
+    title: "Noni and Papa",
+    href: "/noni-and-papa",
+    text: "Browse the family image gallery for Noni and Papa.",
+  },
+  {
     title: "Request a Coloring Page",
     href: "/request-coloring-page",
     text: "Suggest a kid-friendly idea for a future printable coloring page.",
