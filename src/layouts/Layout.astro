@@ -26,8 +26,8 @@ const defaultDescription =
 const {
   title,
   description = defaultDescription,
-  image = "/opengraph.jpg",
-  imageAlt = "Wahkonsa Lodge family-friendly coloring pages, wallpapers, and rustic digital art",
+  image = "/images/wahkonsa-lodge-banner.png",
+  imageAlt = "Wahkonsa Lodge rustic Iowa lodge banner with a round W emblem",
   type = "website",
   noindex = false,
   publishedTime,
@@ -36,7 +36,10 @@ const {
   tags = [],
 } = Astro.props;
 
-const defaultImageWithDomain = new URL("/opengraph.jpg", Astro.site).toString();
+const defaultImageWithDomain = new URL(
+  "/images/wahkonsa-lodge-banner.png",
+  Astro.site,
+).toString();
 const resolvedImageWithDomain = new URL(image, Astro.site).toString();
 
 const makeTitle = title
@@ -112,9 +115,9 @@ const structuredData = [
         },
         image: {
           secureUrl: resolvedImageWithDomain,
-          type: "image/jpeg",
-          width: 1200,
-          height: 630,
+          type: "image/png",
+          width: 1942,
+          height: 809,
           alt: imageAlt,
         },
         ...(type === "article"
