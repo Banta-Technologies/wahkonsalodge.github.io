@@ -69,4 +69,29 @@ export const noniAndPapaItems = [
     image: "/images/noni-and-papa/treat-her-well.png",
     thumb: "/images/noni-and-papa/thumbs/treat-her-well.jpg",
   },
+  {
+    title: "Bok Choy",
+    image: "/images/noni-and-papa/bok-choy.png",
+    thumb: "/images/noni-and-papa/thumbs/bok-choy.jpg",
+  },
+  {
+    title: "Bragging About Band",
+    image: "/images/noni-and-papa/bragging-about-band.png",
+    thumb: "/images/noni-and-papa/thumbs/bragging-about-band.jpg",
+  },
+  {
+    title: "Fish Got Away",
+    image: "/images/noni-and-papa/fish-got-away.png",
+    thumb: "/images/noni-and-papa/thumbs/fish-got-away.jpg",
+  },
+  {
+    title: "Goat Boat Hauler",
+    image: "/images/noni-and-papa/goat-boat-hauler.png",
+    thumb: "/images/noni-and-papa/thumbs/goat-boat-hauler.jpg",
+  },
+  {
+    title: "Vocabulary",
+    image: "/images/noni-and-papa/vocabulary.png",
+    thumb: "/images/noni-and-papa/thumbs/vocabulary.jpg",
+  },
 ] as const;
