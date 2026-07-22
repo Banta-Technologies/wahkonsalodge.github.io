@@ -15,11 +15,6 @@ export const noniAndPapaItems = [
     thumb: "/images/noni-and-papa/thumbs/papa-fishing-priorities.jpg",
   },
   {
-    title: "Clean House Trade",
-    image: "/images/noni-and-papa/clean-house-trade.png",
-    thumb: "/images/noni-and-papa/thumbs/clean-house-trade.jpg",
-  },
-  {
     title: "Ducks Eat Shoes",
     image: "/images/noni-and-papa/ducks-eat-shoes.png",
     thumb: "/images/noni-and-papa/thumbs/ducks-eat-shoes.jpg",
