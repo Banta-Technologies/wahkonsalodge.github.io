@@ -20,6 +20,11 @@ export const noniAndPapaItems = [
     thumb: "/images/noni-and-papa/thumbs/clean-house.jpg",
   },
   {
+    title: "Clean House Trade",
+    image: "/images/noni-and-papa/clean-house-trade.png",
+    thumb: "/images/noni-and-papa/thumbs/clean-house-trade.jpg",
+  },
+  {
     title: "Fear of Everyday",
     image: "/images/noni-and-papa/fear-of-everyday.png",
     thumb: "/images/noni-and-papa/thumbs/fear-of-everyday.jpg",
@@ -90,8 +95,28 @@ export const noniAndPapaItems = [
     thumb: "/images/noni-and-papa/thumbs/goat-boat-hauler.jpg",
   },
   {
+    title: "Goat Therapist",
+    image: "/images/noni-and-papa/goat-therapist.png",
+    thumb: "/images/noni-and-papa/thumbs/goat-therapist.jpg",
+  },
+  {
+    title: "News N Neighbors",
+    image: "/images/noni-and-papa/news-n-neighbors.png",
+    thumb: "/images/noni-and-papa/thumbs/news-n-neighbors.jpg",
+  },
+  {
+    title: "Suck It Up",
+    image: "/images/noni-and-papa/suck-it-up.png",
+    thumb: "/images/noni-and-papa/thumbs/suck-it-up.jpg",
+  },
+  {
     title: "Vocabulary",
     image: "/images/noni-and-papa/vocabulary.png",
     thumb: "/images/noni-and-papa/thumbs/vocabulary.jpg",
+  },
+  {
+    title: "Wine",
+    image: "/images/noni-and-papa/wine.png",
+    thumb: "/images/noni-and-papa/thumbs/wine.jpg",
   },
 ] as const;
