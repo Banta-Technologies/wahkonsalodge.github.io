@@ -26,8 +26,9 @@ const defaultDescription =
 const {
   title,
   description = defaultDescription,
-  image = "/images/wahkonsa-lodge-banner.png",
-  imageAlt = "Wahkonsa Lodge rustic Iowa lodge banner with a round W emblem",
+  image = "/images/noni-and-papa/banner-evolved.png",
+  imageAlt =
+    "Wahkonsa Lodge, home of Noni and Papa, beside a lake and rustic farmhouse",
   type = "website",
   noindex = false,
   publishedTime,
@@ -37,7 +38,7 @@ const {
 } = Astro.props;
 
 const defaultImageWithDomain = new URL(
-  "/images/wahkonsa-lodge-banner.png",
+  "/images/noni-and-papa/banner-evolved.png",
   Astro.site,
 ).toString();
 const resolvedImageWithDomain = new URL(image, Astro.site).toString();
@@ -116,8 +117,8 @@ const structuredData = [
         image: {
           secureUrl: resolvedImageWithDomain,
           type: "image/png",
-          width: 1942,
-          height: 809,
+          width: 1920,
+          height: 819,
           alt: imageAlt,
         },
         ...(type === "article"
