@@ -17,11 +17,12 @@ export interface Props {
   modifiedTime?: string;
   author?: string;
   tags?: string[];
+  additionalStructuredData?: Record<string, unknown>[];
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 const defaultDescription =
-  "Wahkonsa Lodge offers free coloring pages, wallpaper downloads, Midwest lake life, old river paths, fishing docks, birds, pollinators, classic cars, motorcycles, and family-friendly digital art.";
+  "Meet Noni and Papa in a warm country comic about married life, fishing, gardening, aging, simple living, and the humor found in everyday moments.";
 
 const {
   title,
@@ -35,6 +36,7 @@ const {
   modifiedTime,
   author,
   tags = [],
+  additionalStructuredData = [],
 } = Astro.props;
 
 const defaultImageWithDomain = new URL(
@@ -45,7 +47,7 @@ const resolvedImageWithDomain = new URL(image, Astro.site).toString();
 
 const makeTitle = title
   ? title + " | " + "Wahkonsa Lodge"
-  : "Wahkonsa Lodge | Free Coloring Pages, Wallpaper, and Digital Art";
+  : "Wahkonsa Lodge | Home of Noni & Papa";
 
 const pageSchemaType = type === "article" ? "BlogPosting" : "WebPage";
 
@@ -77,6 +79,7 @@ const structuredData = [
     ...(modifiedTime ? { dateModified: modifiedTime } : {}),
     ...(tags.length ? { keywords: tags.join(", ") } : {}),
   },
+  ...additionalStructuredData,
 ];
 ---
 

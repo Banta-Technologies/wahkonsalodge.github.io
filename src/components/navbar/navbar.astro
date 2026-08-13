@@ -1,20 +1,15 @@
 ---
 import Container from "@components/container.astro";
-import Link from "@components/ui/link.astro";
 import Dropdown from "./dropdown.astro";
 import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
 
 const menuitems = [
   {
-    title: "Wallpaper",
-    path: "/wallpaper",
+    title: "Home",
+    path: "/",
   },
   {
-    title: "Coloring Book",
-    path: "/coloring",
-  },
-  {
-    title: "Noni and Papa",
+    title: "Noni & Papa",
     path: "/noni-and-papa",
   },
   {
@@ -22,8 +17,12 @@ const menuitems = [
     path: "/shop",
   },
   {
-    title: "Request a Coloring Page",
-    path: "/request-coloring-page",
+    title: "Archive",
+    children: [
+      { title: "Wallpaper", path: "/wallpaper" },
+      { title: "Printable Coloring Pages", path: "/coloring" },
+      { title: "Request a Coloring Page", path: "/request-coloring-page" },
+    ],
   },
  //   {
  //     title: "Digital Art",
@@ -69,7 +68,7 @@ const menuitems = [
               Wahkonsa Lodge
             </span>
             <span class="block text-sm leading-4 text-slate-500">
-              Midwest art and lake life
+              Home of Noni &amp; Papa
             </span>
           </span>
         </a>
