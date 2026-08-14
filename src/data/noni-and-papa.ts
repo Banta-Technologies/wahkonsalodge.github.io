@@ -1,3 +1,5 @@
+export const latestNoniAndPapaSlug = "catching-zzzs";
+
 export const noniAndPapaItems = [
   {
     title: "Noni and Her Furry Friends",

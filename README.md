@@ -216,6 +216,46 @@ PUBLIC_COLORING_REQUEST_ENDPOINT="https://abc123.execute-api.us-east-1.amazonaws
 
 Then submit the form. If `PUBLIC_COLORING_REQUEST_ENDPOINT` is empty, the page still builds, but submissions show the generic error message because there is no server-side email endpoint to receive them.
 
+## Noni & Papa Comic Publishing
+
+The Noni & Papa creative master library is the source of truth for published comic artwork. By default, the sync tool finds it at:
+
+```text
+~/Desktop/WahkonsaLodge/noni_and_papa
+```
+
+It reads finished full-resolution strips from `comics/published/` and matching thumbnails from `comics/thumbnails/`. It safely copies new or changed assets into `public/images/noni-and-papa/`, updates `src/data/noni-and-papa.ts`, validates the gallery and latest-comic selection, and runs the production build. It compares file contents before copying, does not delete master or website files, and never commits or pushes Git changes.
+
+Run the normal synchronization and build:
+
+```bash
+pnpm noni-papa:sync
+```
+
+Inspect and validate without writing files, generating thumbnails, or running the build:
+
+```bash
+pnpm noni-papa:sync --dry-run
+```
+
+Select the comic shown in the homepage's Latest Noni & Papa Comic section:
+
+```bash
+pnpm noni-papa:sync --latest catching-zzzs
+```
+
+If `--latest` is omitted, the explicit `latestNoniAndPapaSlug` value already stored in `src/data/noni-and-papa.ts` is preserved. The script never guesses the latest comic from alphabetical order. Newly discovered comics are appended to the existing gallery data in master-file modification order, while all existing titles and ordering remain unchanged.
+
+To use a master library somewhere else, set `NONI_PAPA_MASTER`. This takes precedence over the default path:
+
+```bash
+NONI_PAPA_MASTER=/mnt/artwork/noni_and_papa pnpm noni-papa:sync
+```
+
+Every published comic must use a lowercase kebab-case slug and have a thumbnail with the same base filename. Missing thumbnails are generated in the master's `comics/thumbnails/` directory using the existing `sharp` dependency, preserving aspect ratio at a maximum height of 600 pixels and JPEG quality 88. Existing valid thumbnails are never regenerated. Invalid images, duplicate slugs, unmatched thumbnails, broken metadata references, or an unknown latest slug stop synchronization with an actionable error.
+
+The command is intentionally non-destructive: there is no automatic pruning mode, unrelated assets are untouched, and repeated runs skip files whose contents are already synchronized.
+
 ## Credits
 
 [Hero Illustration](https://www.figma.com/community/file/1108400791662599811) by [Streamline](https://www.streamlinehq.com/)

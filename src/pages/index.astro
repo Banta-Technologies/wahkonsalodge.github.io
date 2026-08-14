@@ -3,11 +3,23 @@ import CollectionGallery from "@components/collection-gallery.astro";
 import Container from "@components/container.astro";
 import Hero from "@components/hero.astro";
 import Layout from "@layouts/Layout.astro";
-import { noniAndPapaItems } from "../data/noni-and-papa";
+import {
+  latestNoniAndPapaSlug,
+  noniAndPapaItems,
+} from "../data/noni-and-papa";
 
 const homeDescription =
   "Meet Noni and Papa in a warm country comic about married life, fishing, gardening, aging, simple living, and the humor found in everyday moments.";
-const latestComic = noniAndPapaItems[noniAndPapaItems.length - 1];
+const latestComic = noniAndPapaItems.find((comic) => {
+  const filename = comic.image.split("/").at(-1) ?? "";
+  return filename.replace(/\.[^.]+$/, "") === latestNoniAndPapaSlug;
+});
+
+if (!latestComic) {
+  throw new Error(
+    `Latest Noni & Papa comic not found: ${latestNoniAndPapaSlug}`,
+  );
+}
 const comicStructuredData = {
   "@context": "https://schema.org",
   "@type": "CreativeWork",

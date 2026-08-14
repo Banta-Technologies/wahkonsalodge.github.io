@@ -8,7 +8,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "noni-papa:sync": "node scripts/sync-noni-and-papa.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
