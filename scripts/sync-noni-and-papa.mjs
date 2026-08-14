@@ -279,7 +279,9 @@ function parseComicData(source) {
 }
 
 function titleFromSlug(slug) {
-  const titleSlug = slug.replace(/-comic-strip$/, "");
+  const titleSlug = slug
+    .replace(/^noni-and-papa-/, "")
+    .replace(/-comic-strip$/, "");
   return titleSlug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
