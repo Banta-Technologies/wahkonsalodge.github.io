@@ -134,6 +134,7 @@ export const noniAndPapaItems = [
   {
     title: "How He Stayed Married",
     image: "/images/noni-and-papa/noni-and-papa-how-he-stayed-married.png",
-    thumb: "/images/noni-and-papa/thumbs/noni-and-papa-how-he-stayed-married.jpg",
+    thumb:
+      "/images/noni-and-papa/thumbs/noni-and-papa-how-he-stayed-married.jpg",
   },
 ] as const;

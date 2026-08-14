@@ -34,7 +34,8 @@ const windowMs = 10 * 60 * 1000;
 const maxRequestsPerWindow = 5;
 
 const ses = new SESv2Client({
-  region: process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || "us-east-1",
+  region:
+    process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || "us-east-1",
 });
 
 export async function handler(event) {
@@ -69,7 +70,7 @@ export async function handler(event) {
     const captchaOk = await verifyTurnstile(
       payload.turnstileToken,
       process.env.TURNSTILE_SECRET_KEY,
-      ipAddress
+      ipAddress,
     );
 
     if (!captchaOk) {
@@ -117,7 +118,7 @@ export async function handler(event) {
             },
           },
         },
-      })
+      }),
     );
   } catch (error) {
     console.error("SES send failed", error);
@@ -153,7 +154,9 @@ function validatePayload(payload) {
     return { ok: false, error: "Invalid grade or age range" };
   }
 
-  const invalidStyle = selectedStyles.find((style) => !stylePreferences.has(style));
+  const invalidStyle = selectedStyles.find(
+    (style) => !stylePreferences.has(style),
+  );
   if (invalidStyle) {
     return { ok: false, error: "Invalid style preference" };
   }
@@ -169,7 +172,9 @@ function validatePayload(payload) {
       idea,
       purpose,
       gradeRange: gradeRange || "Not provided",
-      stylePreferences: selectedStyles.length ? selectedStyles : ["Not provided"],
+      stylePreferences: selectedStyles.length
+        ? selectedStyles
+        : ["Not provided"],
       replyEmail,
     },
   };
@@ -195,7 +200,7 @@ async function verifyTurnstile(token, secret, ipAddress) {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body,
-    }
+    },
   );
 
   if (!response.ok) {
@@ -259,10 +264,12 @@ function isRateLimited(key) {
 
 function corsHeaders(event) {
   const origin = event.headers?.origin || "";
-  const allowedOrigin = process.env.ALLOWED_ORIGIN || "https://wahkonsalodge.com";
+  const allowedOrigin =
+    process.env.ALLOWED_ORIGIN || "https://wahkonsalodge.com";
 
   return {
-    "Access-Control-Allow-Origin": origin === allowedOrigin ? origin : allowedOrigin,
+    "Access-Control-Allow-Origin":
+      origin === allowedOrigin ? origin : allowedOrigin,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     Vary: "Origin",

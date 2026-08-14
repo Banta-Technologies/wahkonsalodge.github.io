@@ -3,7 +3,14 @@ import Container from "@components/container.astro";
 import Dropdown from "./dropdown.astro";
 import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
 
-const menuitems = [
+interface MenuItem {
+  title: string;
+  path?: string;
+  badge?: boolean;
+  children?: { title: string; path: string }[];
+}
+
+const menuitems: MenuItem[] = [
   {
     title: "Home",
     path: "/",
@@ -24,27 +31,27 @@ const menuitems = [
       { title: "Request a Coloring Page", path: "/request-coloring-page" },
     ],
   },
- //   {
- //     title: "Digital Art",
- //     path: "/art",
- //   },
- // {
- //   title: "About",
- //   path: "/about",
- // },
- // {
- //   title: "Blog",
- //   path: "/blog",
- // },
- // {
- //   title: "Contact",
- //   path: "/contact",
- // },
- // {
- //   title: "Pro Version",
- //   badge: true,
- //   path: "https://astroship-pro.web3templates.com/",
- // },
+  //   {
+  //     title: "Digital Art",
+  //     path: "/art",
+  //   },
+  // {
+  //   title: "About",
+  //   path: "/about",
+  // },
+  // {
+  //   title: "Blog",
+  //   path: "/blog",
+  // },
+  // {
+  //   title: "Contact",
+  //   path: "/contact",
+  // },
+  // {
+  //   title: "Pro Version",
+  //   badge: true,
+  //   path: "https://astroship-pro.web3templates.com/",
+  // },
 ];
 ---
 
@@ -55,12 +62,10 @@ const menuitems = [
         <a
           href="/"
           class="flex items-center gap-3 text-lg"
-          aria-label="Wahkonsa Lodge Home"
-        >
+          aria-label="Wahkonsa Lodge Home">
           <span
             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-amber-900/20 bg-amber-900 text-base font-bold text-amber-50 shadow-sm"
-            aria-hidden="true"
-          >
+            aria-hidden="true">
             W
           </span>
           <span>
@@ -92,7 +97,7 @@ const menuitems = [
                 {!item.children && (
                   <li>
                     <a
-                      href={item.path}
+                      href={item.path ?? "#"}
                       class="flex lg:px-3 py-2 items-center text-gray-600 hover:text-gray-900">
                       <span> {item.title}</span>
                       {item.badge && (

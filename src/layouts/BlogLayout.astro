@@ -3,6 +3,23 @@ import Container from "@components/container.astro";
 import { getFormattedDate } from "@utils/all";
 import Layout from "./Layout.astro";
 
+interface BlogFrontmatter {
+  title: string;
+  snippet: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
+  publishDate: string;
+  author: string;
+  category: string;
+  tags: string[];
+}
+
+interface Props {
+  frontmatter: BlogFrontmatter;
+}
+
 const { frontmatter } = Astro.props;
 ---
 
@@ -15,8 +32,7 @@ const { frontmatter } = Astro.props;
   publishedTime={new Date(frontmatter.publishDate).toISOString()}
   modifiedTime={new Date(frontmatter.publishDate).toISOString()}
   author={frontmatter.author}
-  tags={frontmatter.tags}
->
+  tags={frontmatter.tags}>
   <Container>
     <div class="mx-auto max-w-[735px] mt-14">
       <span class="text-blue-400 uppercase tracking-wider text-sm font-medium">

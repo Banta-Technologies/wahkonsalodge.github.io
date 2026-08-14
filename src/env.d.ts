@@ -1,6 +1,8 @@
 /// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
 
+declare module "@fontsource-variable/bricolage-grotesque";
+
 interface ImportMetaEnv {
   readonly PUBLIC_COLORING_REQUEST_ENDPOINT?: string;
   readonly PUBLIC_TURNSTILE_SITE_KEY?: string;

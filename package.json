@@ -3,13 +3,15 @@
   "type": "module",
   "version": "2.2.0",
   "private": true,
+  "packageManager": "pnpm@10.34.5",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "noni-papa:sync": "node scripts/sync-noni-and-papa.mjs"
+    "noni-papa:sync": "node scripts/sync-noni-and-papa.mjs",
+    "repo:check": "node scripts/check-repo.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
@@ -28,9 +30,12 @@
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
+    "@astrojs/check": "0.9.9",
     "@tailwindcss/postcss": "^4.3.1",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.15",
-    "prettier": "^3.8.4"
+    "prettier": "^3.8.4",
+    "prettier-plugin-astro": "0.14.1",
+    "typescript": "6.0.3"
   }
 }

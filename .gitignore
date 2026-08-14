@@ -15,7 +15,16 @@ pnpm-debug.log*
 
 # environment variables
 .env
-.env.production
+.env.*
+!.env.example
+!.env.sample
+!.env.template
 
-# macOS-specific files
+# OS, editor, and temporary files
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+*.bak
+*.tmp
