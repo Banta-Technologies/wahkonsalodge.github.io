@@ -114,4 +114,19 @@ export const noniAndPapaItems = [
     image: "/images/noni-and-papa/suck-it-up.png",
     thumb: "/images/noni-and-papa/thumbs/suck-it-up.jpg",
   },
+  {
+    title: "Fat Rrrrr",
+    image: "/images/noni-and-papa/fat-rrrrr.png",
+    thumb: "/images/noni-and-papa/thumbs/fat-rrrrr.jpg",
+  },
+  {
+    title: "Nail Polish",
+    image: "/images/noni-and-papa/nail-polish-comic-strip.png",
+    thumb: "/images/noni-and-papa/thumbs/nail-polish-comic-strip.jpg",
+  },
+  {
+    title: "Catching Zzzs",
+    image: "/images/noni-and-papa/catching-zzzs.png",
+    thumb: "/images/noni-and-papa/thumbs/catching-zzzs.jpg",
+  },
 ] as const;
