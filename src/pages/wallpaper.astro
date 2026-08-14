@@ -141,8 +141,12 @@ const categories = [
   const downloadLink = document.querySelector("#wallpaper-download");
   const closeButton = document.querySelector("[data-wallpaper-close]");
 
-  let lastFocusedElement = null;
-  let selectedWallpaper = null;
+  let lastFocusedElement: Element | null = null;
+  let selectedWallpaper: {
+    image: string;
+    title: string;
+    category: string;
+  } | null = null;
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {

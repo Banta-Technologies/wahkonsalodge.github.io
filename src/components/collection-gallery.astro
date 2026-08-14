@@ -7,7 +7,7 @@ interface GalleryItem {
 }
 
 interface Props {
-  items: GalleryItem[];
+  items: readonly GalleryItem[];
   action?: string;
   featured?: boolean;
 }
