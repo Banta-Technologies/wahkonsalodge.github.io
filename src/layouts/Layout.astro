@@ -28,8 +28,7 @@ const {
   title,
   description = defaultDescription,
   image = "/images/noni-and-papa/banner-evolved.png",
-  imageAlt =
-    "Wahkonsa Lodge, home of Noni and Papa, beside a lake and rustic farmhouse",
+  imageAlt = "Wahkonsa Lodge, home of Noni and Papa, beside a lake and rustic farmhouse",
   type = "website",
   noindex = false,
   publishedTime,
@@ -83,7 +82,7 @@ const structuredData = [
 ];
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -136,19 +135,22 @@ const structuredData = [
           : {}),
       }}
     />
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
 
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2Q5FRRB9LE"></script>
-<script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-2Q5FRRB9LE');
-</script>
-
-
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Q5FRRB9LE"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-2Q5FRRB9LE");
+    </script>
   </head>
   <body>
     <Navbar />
@@ -163,11 +165,13 @@ const structuredData = [
 
       body {
         background:
-          linear-gradient(180deg, rgba(250, 247, 239, 0.86), rgba(255, 255, 255, 0.96) 28rem),
+          linear-gradient(
+            180deg,
+            rgba(250, 247, 239, 0.86),
+            rgba(255, 255, 255, 0.96) 28rem
+          ),
           #fff;
       }
     </style>
-
-
   </body>
 </html>

@@ -7,14 +7,13 @@ import { collectionCopy } from "../data/collections";
 import { wallpaperItems } from "../data/wallpaper";
 
 const featuredItems = wallpaperItems.filter((item) =>
-  ["Lake Scenes", "Pollinators", "Random"].includes(item.category)
+  ["Lake Scenes", "Pollinators", "Random"].includes(item.category),
 );
 ---
 
 <Layout
   title={collectionCopy.art.title}
-  description={collectionCopy.art.description}
->
+  description={collectionCopy.art.description}>
   <Container>
     <main class="py-8">
       <div class="max-w-3xl">

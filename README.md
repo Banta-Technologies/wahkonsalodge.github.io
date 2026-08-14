@@ -14,7 +14,6 @@ This Free Template is sponsored by [Web3Templates](https://web3templates.com)
 
 **[Purchase Astroship Pro — $49](https://web3templates.com/templates/astroship-pro-astro-saas-website-template)**
 
-
 <!-- prettier-ignore -->
 | Feature | Free Version | Pro Version |
 | --- | ------ | --- |
@@ -36,6 +35,7 @@ This Free Template is sponsored by [Web3Templates](https://web3templates.com)
 | &nbsp; | &nbsp;| &nbsp;|
 | Pricing| Free|**$49**|
 | &nbsp; | Wahkonsa Means Honor or Respect
+
 <a href="https://web3templates.com/templates/astroship-pro-astro-saas-website-template">
 <img width="160" alt="Upgrade to Pro" src="https://user-images.githubusercontent.com/1884712/199181300-37c2128e-d033-4145-a906-16fa5263a53b.png">
 </a>
@@ -55,7 +55,6 @@ Click here to deploy on Netlify:
 ### Pagespeed Score
 
 [![pagespeed](https://user-images.githubusercontent.com/1884712/210250214-7aa98167-7993-4b90-8138-326b8fa0c223.png)](https://pagespeed.web.dev/report?url=https%3A%2F%2Fastroship.web3templates.com%2F)
-
 
 ## Installation
 

@@ -70,7 +70,10 @@ export default {
     }
 
     const submittedAt = new Date().toISOString();
-    const userAgent = clean(request.headers.get("user-agent") ?? "Unavailable", 500);
+    const userAgent = clean(
+      request.headers.get("user-agent") ?? "Unavailable",
+      500,
+    );
     const emailBody = buildEmailBody({
       ...validation.data,
       submittedAt,
@@ -127,7 +130,9 @@ function validatePayload(payload) {
     return { ok: false, error: "Invalid grade or age range" };
   }
 
-  const invalidStyle = selectedStyles.find((style) => !stylePreferences.has(style));
+  const invalidStyle = selectedStyles.find(
+    (style) => !stylePreferences.has(style),
+  );
   if (invalidStyle) {
     return { ok: false, error: "Invalid style preference" };
   }
@@ -143,7 +148,9 @@ function validatePayload(payload) {
       idea,
       purpose,
       gradeRange: gradeRange || "Not provided",
-      stylePreferences: selectedStyles.length ? selectedStyles : ["Not provided"],
+      stylePreferences: selectedStyles.length
+        ? selectedStyles
+        : ["Not provided"],
       replyEmail,
     },
   };
@@ -205,7 +212,8 @@ function getCorsHeaders(request, env) {
   const allowedOrigin = env.ALLOWED_ORIGIN || "https://wahkonsalodge.com";
 
   return {
-    "Access-Control-Allow-Origin": origin === allowedOrigin ? origin : allowedOrigin,
+    "Access-Control-Allow-Origin":
+      origin === allowedOrigin ? origin : allowedOrigin,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     Vary: "Origin",
