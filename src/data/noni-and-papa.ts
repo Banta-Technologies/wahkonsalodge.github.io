@@ -1,4 +1,4 @@
-export const latestNoniAndPapaSlug = "noni-and-papa-how-he-stayed-married";
+export const latestNoniAndPapaSlug = "eggs-and-chicken";
 
 export const noniAndPapaItems = [
   {
@@ -136,5 +136,10 @@ export const noniAndPapaItems = [
     image: "/images/noni-and-papa/noni-and-papa-how-he-stayed-married.png",
     thumb:
       "/images/noni-and-papa/thumbs/noni-and-papa-how-he-stayed-married.jpg",
+  },
+  {
+    title: "Eggs And Chicken",
+    image: "/images/noni-and-papa/eggs-and-chicken.png",
+    thumb: "/images/noni-and-papa/thumbs/eggs-and-chicken.jpg",
   },
 ] as const;
