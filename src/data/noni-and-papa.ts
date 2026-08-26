@@ -144,7 +144,8 @@ export const noniAndPapaItems = [
   },
   {
     title: "Apple Pie",
-    image: "/images/noni-and-papa/apple-pie.png",
-    thumb: "/images/noni-and-papa/thumbs/apple-pie.jpg",
+    version: 2,
+    image: "/images/noni-and-papa/apple-pie-v2.png",
+    thumb: "/images/noni-and-papa/thumbs/apple-pie-v2.jpg",
   },
 ] as const;

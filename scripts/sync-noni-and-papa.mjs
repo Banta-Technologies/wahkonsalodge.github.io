@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
 import {
   access,
@@ -16,6 +15,13 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
+import {
+  filesHaveSameContent,
+  logicalSlugFromAsset,
+  parseVersionedAssetSlug,
+  planComicAssetVersion,
+  versionedAssetFilename,
+} from "./noni-and-papa-versioning.mjs";
 
 const VALID_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const FULL_IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp"]);
@@ -258,17 +264,32 @@ function parseComicData(source) {
 
   const arraySource = source.slice(arrayStart, arrayEnd);
   const itemPattern =
-    /\{\s*title:\s*("(?:\\.|[^"\\])*")\s*,\s*image:\s*"([^"]+)"\s*,\s*thumb:\s*"([^"]+)"\s*,\s*\}/g;
+    /  \{\s*title:\s*("(?:\\.|[^"\\])*")\s*,\s*(?:version:\s*([1-9]\d*)\s*,\s*)?image:\s*"([^"]+)"\s*,\s*thumb:\s*"([^"]+)"\s*,\s*\}/g;
   const items = [];
   let match;
 
   while ((match = itemPattern.exec(arraySource)) !== null) {
     const title = JSON.parse(match[1]);
-    const image = match[2];
-    const thumb = match[3];
+    const version = match[2] === undefined ? undefined : Number(match[2]);
+    const image = match[3];
+    const thumb = match[4];
     const filename = path.posix.basename(image);
-    const slug = slugOf(filename);
-    items.push({ title, image, thumb, slug });
+    const thumbnailFilename = path.posix.basename(thumb);
+    const slug = logicalSlugFromAsset(filename, version);
+    const thumbnailSlug = logicalSlugFromAsset(thumbnailFilename, version);
+    if (slug !== thumbnailSlug) {
+      throw new Error(
+        `Comic-data image and thumbnail do not share a logical slug: ${image} / ${thumb}`,
+      );
+    }
+    items.push({
+      title,
+      version,
+      image,
+      thumb,
+      slug,
+      raw: match[0],
+    });
   }
 
   if (items.length === 0) {
@@ -288,25 +309,33 @@ function titleFromSlug(slug) {
     .join(" ");
 }
 
-function comicBlock(comic, thumbnail) {
+function comicBlock({ title, version, imageFilename, thumbnailFilename }) {
+  const versionLine = version === undefined ? "" : `    version: ${version},\n`;
   return `  {
-    title: ${JSON.stringify(titleFromSlug(comic.slug))},
-    image: "/images/noni-and-papa/${comic.filename}",
-    thumb: "/images/noni-and-papa/thumbs/${thumbnail.filename}",
+    title: ${JSON.stringify(title)},
+${versionLine}    image: "/images/noni-and-papa/${imageFilename}",
+    thumb: "/images/noni-and-papa/thumbs/${thumbnailFilename}",
   },`;
 }
 
-function updateComicData(source, newRecords, latestSlug) {
+function updateComicData(source, newRecords, replacementRecords, latestSlug) {
   let updatedSource = source;
+
+  for (const { item, record } of replacementRecords) {
+    if (!updatedSource.includes(item.raw)) {
+      throw new Error(
+        `Unable to update the comic-data record for "${item.slug}".`,
+      );
+    }
+    updatedSource = updatedSource.replace(item.raw, comicBlock(record));
+  }
 
   if (newRecords.length > 0) {
     const markerIndex = updatedSource.indexOf(DATA_ARRAY_END);
     if (markerIndex === -1) {
       throw new Error(`Unable to update the comic array in ${comicDataPath}.`);
     }
-    const blocks = newRecords
-      .map(({ comic, thumbnail }) => comicBlock(comic, thumbnail))
-      .join("\n");
+    const blocks = newRecords.map(comicBlock).join("\n");
     updatedSource =
       updatedSource.slice(0, markerIndex) +
       `${blocks}\n` +
@@ -321,31 +350,14 @@ function updateComicData(source, newRecords, latestSlug) {
   return updatedSource;
 }
 
-async function hashFile(filePath) {
-  const hash = createHash("sha256");
-  const file = await readFile(filePath);
-  hash.update(file);
-  return hash.digest("hex");
-}
-
 async function compareFiles(sourcePath, destinationPath) {
   if (!(await fileExists(destinationPath))) {
     return "added";
   }
 
-  const [sourceStats, destinationStats] = await Promise.all([
-    stat(sourcePath),
-    stat(destinationPath),
-  ]);
-  if (sourceStats.size !== destinationStats.size) {
-    return "updated";
-  }
-
-  const [sourceHash, destinationHash] = await Promise.all([
-    hashFile(sourcePath),
-    hashFile(destinationPath),
-  ]);
-  return sourceHash === destinationHash ? "unchanged" : "updated";
+  return (await filesHaveSameContent(sourcePath, destinationPath))
+    ? "unchanged"
+    : "updated";
 }
 
 async function replaceFileAtomically(sourcePath, destinationPath) {
@@ -515,9 +527,6 @@ async function main() {
     validateThumbnail(thumbnail);
   }
 
-  const missingThumbnailSlugs = [...published.keys()].filter(
-    (slug) => !thumbnails.has(slug),
-  );
   for (const slug of thumbnails.keys()) {
     if (!published.has(slug)) {
       mismatches.push(`Thumbnail has no published comic: ${slug}`);
@@ -545,14 +554,23 @@ async function main() {
       );
     }
 
-    const plannedThumbnail = thumbnails.get(item.slug) ?? {
-      filename: `${item.slug}.jpg`,
-    };
-    const expectedImage = `/images/noni-and-papa/${masterComic.filename}`;
-    const expectedThumb = `/images/noni-and-papa/thumbs/${plannedThumbnail.filename}`;
+    const expectedImageFilename =
+      item.version === undefined
+        ? masterComic.filename
+        : versionedAssetFilename(
+            item.slug,
+            item.version,
+            masterComic.extension,
+          );
+    const expectedThumbnailFilename =
+      item.version === undefined
+        ? `${item.slug}.jpg`
+        : versionedAssetFilename(item.slug, item.version, ".jpg");
+    const expectedImage = `/images/noni-and-papa/${expectedImageFilename}`;
+    const expectedThumb = `/images/noni-and-papa/thumbs/${expectedThumbnailFilename}`;
     if (item.image !== expectedImage || item.thumb !== expectedThumb) {
       throw new Error(
-        `Comic-data paths do not match the master assets for "${item.slug}". Expected ${expectedImage} and ${expectedThumb}.`,
+        `Comic-data paths do not match the declared asset version for "${item.slug}". Expected ${expectedImage} and ${expectedThumb}.`,
       );
     }
   }
@@ -571,17 +589,46 @@ async function main() {
     );
   }
 
-  const generated = missingThumbnailSlugs.map((slug) =>
+  const newComicSlugs = new Set(newComics.map((comic) => comic.slug));
+  const plans = [];
+
+  for (const comic of published.values()) {
+    const item = dataBySlug.get(comic.slug);
+    const currentImagePath = item
+      ? path.join(websiteImageRoot, path.posix.basename(item.image))
+      : undefined;
+    const currentAssetExists = currentImagePath
+      ? await fileExists(currentImagePath)
+      : false;
+    const sourceMatchesCurrent = currentAssetExists
+      ? (await compareFiles(comic.path, currentImagePath)) === "unchanged"
+      : false;
+    const decision = planComicAssetVersion({
+      slug: comic.slug,
+      extension: comic.extension,
+      isNew: newComicSlugs.has(comic.slug),
+      currentVersion: item?.version,
+      currentAssetExists,
+      sourceMatchesCurrent,
+    });
+    plans.push({ comic, item, decision });
+  }
+
+  const thumbnailGenerationPlans = plans.filter(
+    ({ comic, decision }) =>
+      decision.reason === "revised" || !thumbnails.has(comic.slug),
+  );
+  const generated = thumbnailGenerationPlans.map(({ comic }) =>
     relativeMasterPath(
       masterRoot,
-      path.join(masterThumbnailRoot, `${slug}.jpg`),
+      path.join(masterThumbnailRoot, `${comic.slug}.jpg`),
     ),
   );
 
   if (!options.dryRun) {
-    for (const slug of missingThumbnailSlugs) {
-      const thumbnailPath = path.join(masterThumbnailRoot, `${slug}.jpg`);
-      await generateThumbnail(published.get(slug).path, thumbnailPath);
+    for (const { comic } of thumbnailGenerationPlans) {
+      const thumbnailPath = path.join(masterThumbnailRoot, `${comic.slug}.jpg`);
+      await generateThumbnail(comic.path, thumbnailPath);
       const generatedThumbnail = {
         path: thumbnailPath,
         metadata: await inspectImage(thumbnailPath, "generated thumbnail"),
@@ -591,23 +638,33 @@ async function main() {
   }
 
   const effectiveThumbnails = new Map(thumbnails);
-  for (const slug of missingThumbnailSlugs) {
-    const thumbnailPath = path.join(masterThumbnailRoot, `${slug}.jpg`);
-    effectiveThumbnails.set(slug, {
-      slug,
-      filename: `${slug}.jpg`,
+  for (const { comic } of thumbnailGenerationPlans) {
+    const thumbnailPath = path.join(masterThumbnailRoot, `${comic.slug}.jpg`);
+    effectiveThumbnails.set(comic.slug, {
+      slug: comic.slug,
+      filename: `${comic.slug}.jpg`,
       extension: ".jpg",
       path: thumbnailPath,
     });
   }
 
-  const newRecords = newComics.map((comic) => ({
-    comic,
-    thumbnail: effectiveThumbnails.get(comic.slug),
-  }));
+  const recordForPlan = ({ comic, item, decision }) => ({
+    title: item?.title ?? titleFromSlug(comic.slug),
+    version: decision.version,
+    imageFilename: decision.imageFilename,
+    thumbnailFilename: decision.thumbnailFilename,
+  });
+  const planBySlug = new Map(plans.map((plan) => [plan.comic.slug, plan]));
+  const newRecords = newComics.map((comic) =>
+    recordForPlan(planBySlug.get(comic.slug)),
+  );
+  const replacementRecords = plans
+    .filter(({ item, decision }) => item && decision.metadataChanged)
+    .map((plan) => ({ item: plan.item, record: recordForPlan(plan) }));
   const updatedDataSource = updateComicData(
     dataSource,
     newRecords,
+    replacementRecords,
     selectedLatest,
   );
   const dataChanged = updatedDataSource !== dataSource;
@@ -616,8 +673,8 @@ async function main() {
   const updated = [];
   const unchanged = [];
 
-  for (const comic of published.values()) {
-    const destinationPath = path.join(websiteImageRoot, comic.filename);
+  for (const { comic, decision } of plans) {
+    const destinationPath = path.join(websiteImageRoot, decision.imageFilename);
     const result = await compareFiles(comic.path, destinationPath);
     const displayPath = relativeWebsitePath(destinationPath);
     if (result === "unchanged") {
@@ -630,10 +687,22 @@ async function main() {
     }
   }
 
-  for (const thumbnail of effectiveThumbnails.values()) {
-    const destinationPath = path.join(websiteThumbnailRoot, thumbnail.filename);
+  for (const { comic, decision } of plans) {
+    const thumbnail = effectiveThumbnails.get(comic.slug);
+    if (!thumbnail) {
+      throw new Error(`Missing effective thumbnail for "${comic.slug}".`);
+    }
+    const destinationPath = path.join(
+      websiteThumbnailRoot,
+      decision.thumbnailFilename,
+    );
     let result;
-    if (options.dryRun && missingThumbnailSlugs.includes(thumbnail.slug)) {
+    if (
+      options.dryRun &&
+      thumbnailGenerationPlans.some(
+        ({ comic: generatedComic }) => generatedComic.slug === comic.slug,
+      )
+    ) {
       result = (await fileExists(destinationPath)) ? "updated" : "added";
     } else {
       result = await compareFiles(thumbnail.path, destinationPath);
@@ -659,14 +728,16 @@ async function main() {
     unchanged.push(relativeWebsitePath(comicDataPath));
   }
 
-  for (const slug of websiteComicInspection.assets.keys()) {
+  for (const asset of websiteComicInspection.assets.values()) {
+    const { slug } = parseVersionedAssetSlug(asset.filename);
     if (slug !== "banner-evolved" && !published.has(slug)) {
       warnings.push(
         `Website comic is not in the master archive and was preserved: ${slug}`,
       );
     }
   }
-  for (const slug of websiteThumbInspection.assets.keys()) {
+  for (const asset of websiteThumbInspection.assets.values()) {
+    const { slug } = parseVersionedAssetSlug(asset.filename);
     if (!published.has(slug)) {
       warnings.push(
         `Website thumbnail is not in the master archive and was preserved: ${slug}`,

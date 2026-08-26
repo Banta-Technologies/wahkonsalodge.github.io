@@ -9,7 +9,12 @@ const homeDescription =
   "Meet Noni and Papa in a warm country comic about married life, fishing, gardening, aging, simple living, and the humor found in everyday moments.";
 const latestComic = noniAndPapaItems.find((comic) => {
   const filename = comic.image.split("/").at(-1) ?? "";
-  return filename.replace(/\.[^.]+$/, "") === latestNoniAndPapaSlug;
+  const assetSlug = filename.replace(/\.[^.]+$/, "");
+  const logicalSlug =
+    "version" in comic
+      ? assetSlug.replace(new RegExp(`-v${comic.version}$`), "")
+      : assetSlug;
+  return logicalSlug === latestNoniAndPapaSlug;
 });
 
 if (!latestComic) {

@@ -1,5 +1,10 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
+import {
+  logicalSlugFromAsset,
+  parseVersionedAssetSlug,
+  versionedAssetFilename,
+} from "../noni-and-papa-versioning.mjs";
 
 const VALID_FULL_IMAGE = /^[a-z0-9]+(?:-[a-z0-9]+)*\.png$/;
 const VALID_THUMBNAIL = /^[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/;
@@ -25,15 +30,16 @@ function parseComicData(source, dataPath) {
 
   const arraySource = source.slice(arrayStart, arrayEnd);
   const itemPattern =
-    /\{\s*title:\s*("(?:\\.|[^"\\])*")\s*,\s*image:\s*"([^"]+)"\s*,\s*thumb:\s*"([^"]+)"\s*,\s*\}/g;
+    /\{\s*title:\s*("(?:\\.|[^"\\])*")\s*,\s*(?:version:\s*([1-9]\d*)\s*,\s*)?image:\s*"([^"]+)"\s*,\s*thumb:\s*"([^"]+)"\s*,\s*\}/g;
   const items = [];
   let match;
 
   while ((match = itemPattern.exec(arraySource)) !== null) {
     items.push({
       title: JSON.parse(match[1]),
-      image: match[2],
-      thumb: match[3],
+      version: match[2] === undefined ? undefined : Number(match[2]),
+      image: match[3],
+      thumb: match[4],
     });
   }
 
@@ -83,11 +89,20 @@ export async function checkNoniAndPapa(repositoryRoot) {
   }
 
   const metadataSlugs = new Set();
+  const currentImageFilenames = new Set();
+  const currentThumbnailFilenames = new Set();
   for (const item of data.items) {
     const imageFilename = path.posix.basename(item.image);
     const thumbnailFilename = path.posix.basename(item.thumb);
-    const imageSlug = slugOf(imageFilename);
-    const thumbnailSlug = slugOf(thumbnailFilename);
+    let imageSlug;
+    let thumbnailSlug;
+    try {
+      imageSlug = logicalSlugFromAsset(imageFilename, item.version);
+      thumbnailSlug = logicalSlugFromAsset(thumbnailFilename, item.version);
+    } catch (error) {
+      problems.push(error.message);
+      continue;
+    }
 
     if (!item.title.trim()) {
       problems.push(`Comic "${imageSlug}" has an empty title`);
@@ -96,6 +111,8 @@ export async function checkNoniAndPapa(repositoryRoot) {
       problems.push(`Duplicate gallery comic slug: ${imageSlug}`);
     }
     metadataSlugs.add(imageSlug);
+    currentImageFilenames.add(imageFilename);
+    currentThumbnailFilenames.add(thumbnailFilename);
 
     if (!VALID_FULL_IMAGE.test(imageFilename)) {
       problems.push(`Invalid metadata comic filename: ${item.image}`);
@@ -107,6 +124,28 @@ export async function checkNoniAndPapa(repositoryRoot) {
       problems.push(
         `Comic and thumbnail slugs do not match: ${imageSlug} / ${thumbnailSlug}`,
       );
+    }
+    if (item.version !== undefined) {
+      const expectedImageFilename = versionedAssetFilename(
+        imageSlug,
+        item.version,
+        path.extname(imageFilename),
+      );
+      const expectedThumbnailFilename = versionedAssetFilename(
+        imageSlug,
+        item.version,
+        ".jpg",
+      );
+      if (imageFilename !== expectedImageFilename) {
+        problems.push(
+          `Versioned comic filename does not match metadata: ${imageFilename}`,
+        );
+      }
+      if (thumbnailFilename !== expectedThumbnailFilename) {
+        problems.push(
+          `Versioned thumbnail filename does not match metadata: ${thumbnailFilename}`,
+        );
+      }
     }
 
     const expectedImage = `/images/noni-and-papa/${imageFilename}`;
@@ -124,28 +163,36 @@ export async function checkNoniAndPapa(repositoryRoot) {
   const fullImageSlugs = new Set(fullImages.map(slugOf));
   const thumbnailSlugs = new Set(thumbnails.map(slugOf));
 
-  for (const slug of metadataSlugs) {
-    if (!fullImageSlugs.has(slug)) {
-      problems.push(`Metadata points to a missing full-size comic: ${slug}`);
-    }
-    if (!thumbnailSlugs.has(slug)) {
-      problems.push(`Metadata points to a missing thumbnail: ${slug}`);
-    }
-  }
-  for (const slug of fullImageSlugs) {
-    if (!metadataSlugs.has(slug)) {
-      problems.push(`Full-size comic has no metadata record: ${slug}`);
-    }
-    if (!thumbnailSlugs.has(slug)) {
-      problems.push(`Full-size comic has no matching thumbnail: ${slug}`);
+  for (const filename of currentImageFilenames) {
+    if (!fullImages.includes(filename)) {
+      problems.push(
+        `Metadata points to a missing full-size comic: ${filename}`,
+      );
     }
   }
-  for (const slug of thumbnailSlugs) {
-    if (!metadataSlugs.has(slug)) {
-      problems.push(`Orphaned thumbnail: ${slug}`);
+  for (const filename of currentThumbnailFilenames) {
+    if (!thumbnails.includes(filename)) {
+      problems.push(`Metadata points to a missing thumbnail: ${filename}`);
     }
-    if (!fullImageSlugs.has(slug)) {
-      problems.push(`Thumbnail has no matching full-size comic: ${slug}`);
+  }
+  for (const filename of fullImages) {
+    const assetSlug = slugOf(filename);
+    const { slug } = parseVersionedAssetSlug(filename);
+    if (!metadataSlugs.has(slug)) {
+      problems.push(`Full-size comic has no metadata record: ${assetSlug}`);
+    }
+    if (!thumbnailSlugs.has(assetSlug)) {
+      problems.push(`Full-size comic has no matching thumbnail: ${assetSlug}`);
+    }
+  }
+  for (const filename of thumbnails) {
+    const assetSlug = slugOf(filename);
+    const { slug } = parseVersionedAssetSlug(filename);
+    if (!metadataSlugs.has(slug)) {
+      problems.push(`Orphaned thumbnail: ${assetSlug}`);
+    }
+    if (!fullImageSlugs.has(assetSlug)) {
+      problems.push(`Thumbnail has no matching full-size comic: ${assetSlug}`);
     }
   }
 
@@ -159,5 +206,5 @@ export async function checkNoniAndPapa(repositoryRoot) {
     throw new Error(problems.join("\n"));
   }
 
-  return `${metadataSlugs.size} comics, ${thumbnailSlugs.size} thumbnails; latest: ${data.latest}`;
+  return `${metadataSlugs.size} comics, ${currentThumbnailFilenames.size} current thumbnails; latest: ${data.latest}`;
 }
