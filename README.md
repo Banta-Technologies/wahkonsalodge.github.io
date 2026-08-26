@@ -223,7 +223,7 @@ The Noni & Papa creative master library is the source of truth for published com
 ~/Desktop/WahkonsaLodge/noni_and_papa
 ```
 
-It reads finished full-resolution strips from `comics/published/` and matching thumbnails from `comics/thumbnails/`. It safely copies new or changed assets into `public/images/noni-and-papa/`, updates `src/data/noni-and-papa.ts`, validates the gallery and latest-comic selection, and runs the production build. It compares file contents before copying, does not delete master or website files, and never commits or pushes Git changes.
+It reads finished full-resolution strips from `comics/published/` and matching thumbnails from `comics/thumbnails/`. It safely copies new or changed assets into `public/images/noni-and-papa/`, updates `src/data/noni-and-papa.ts`, validates the gallery and latest-comic selection, and runs the production build. Website assets use stable numeric versions such as `apple-pie-v2.png` and `apple-pie-v2.jpg`, while the creative-master filenames remain unchanged. The sync compares file contents before publishing, does not delete master or website files, and never commits or pushes Git changes.
 
 Run the normal synchronization and build:
 
@@ -251,9 +251,9 @@ To use a master library somewhere else, set `NONI_PAPA_MASTER`. This takes prece
 NONI_PAPA_MASTER=/mnt/artwork/noni_and_papa pnpm noni-papa:sync
 ```
 
-Every published comic must use a lowercase kebab-case slug and have a thumbnail with the same base filename. Missing thumbnails are generated in the master's `comics/thumbnails/` directory using the existing `sharp` dependency, preserving aspect ratio at a maximum height of 600 pixels and JPEG quality 88. Existing valid thumbnails are never regenerated. Invalid images, duplicate slugs, unmatched thumbnails, broken metadata references, or an unknown latest slug stop synchronization with an actionable error.
+Every master comic must use a lowercase kebab-case slug and have a thumbnail with the same base filename. Missing thumbnails are generated in the master's `comics/thumbnails/` directory using the existing `sharp` dependency, preserving aspect ratio at a maximum height of 600 pixels and JPEG quality 88. New website comics begin at version 1. If the master artwork bytes later differ from the website asset referenced by metadata, the sync increments the numeric version, regenerates the master thumbnail, and publishes both assets at new URLs. Identical source bytes keep the current version, so repeated syncs are idempotent. Existing unversioned comics remain valid until their first detected revision; that revision treats the legacy asset as version 1 and publishes version 2. Invalid images, duplicate slugs, unmatched thumbnails, broken metadata references, or an unknown latest slug stop synchronization with an actionable error.
 
-The command is intentionally non-destructive: there is no automatic pruning mode, unrelated assets are untouched, and repeated runs skip files whose contents are already synchronized.
+The command is intentionally non-destructive: there is no automatic pruning mode, unrelated assets are untouched, and repeated runs skip files whose contents are already synchronized. Older website asset versions may remain for existing links, but gallery and homepage metadata reference only the current version.
 
 ## Credits
 

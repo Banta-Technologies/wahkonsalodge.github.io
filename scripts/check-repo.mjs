@@ -56,6 +56,15 @@ const checks = [
     run: () => checkNoniAndPapa(repositoryRoot),
   },
   {
+    name: "Noni & Papa asset versioning",
+    run: async () => {
+      await runCommand(process.execPath, [
+        "scripts/test-noni-and-papa-versioning.mjs",
+      ]);
+      return "Version increments and idempotence passed";
+    },
+  },
+  {
     name: "Developer-specific paths",
     run: () => checkLocalPaths(repositoryRoot),
   },
