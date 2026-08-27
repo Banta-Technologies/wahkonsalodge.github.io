@@ -1,4 +1,4 @@
-export const latestNoniAndPapaSlug = "apple-pie";
+export const latestNoniAndPapaSlug = "mystery-animal";
 
 export const noniAndPapaItems = [
   {
@@ -147,5 +147,11 @@ export const noniAndPapaItems = [
     version: 2,
     image: "/images/noni-and-papa/apple-pie-v2.png",
     thumb: "/images/noni-and-papa/thumbs/apple-pie-v2.jpg",
+  },
+  {
+    title: "The Mystery Animal",
+    version: 1,
+    image: "/images/noni-and-papa/mystery-animal-v1.png",
+    thumb: "/images/noni-and-papa/thumbs/mystery-animal-v1.jpg",
   },
 ] as const;
