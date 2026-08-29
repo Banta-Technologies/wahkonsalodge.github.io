@@ -1,4 +1,4 @@
-export const latestNoniAndPapaSlug = "mystery-animal";
+export const latestNoniAndPapaSlug = "hyena-the-javelina";
 
 export const noniAndPapaItems = [
   {
@@ -153,5 +153,11 @@ export const noniAndPapaItems = [
     version: 1,
     image: "/images/noni-and-papa/mystery-animal-v1.png",
     thumb: "/images/noni-and-papa/thumbs/mystery-animal-v1.jpg",
+  },
+  {
+    title: "Hyena the Javelina",
+    version: 1,
+    image: "/images/noni-and-papa/hyena-the-javelina-v1.png",
+    thumb: "/images/noni-and-papa/thumbs/hyena-the-javelina-v1.jpg",
   },
 ] as const;
