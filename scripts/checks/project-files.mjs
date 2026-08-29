@@ -1,7 +1,9 @@
+import { access } from "node:fs/promises";
+import path from "node:path";
 import { spawn } from "node:child_process";
 
-export function listProjectFiles(repositoryRoot) {
-  return new Promise((resolve, reject) => {
+export async function listProjectFiles(repositoryRoot) {
+  const files = await new Promise((resolve, reject) => {
     const child = spawn(
       "git",
       ["ls-files", "-z", "--cached", "--others", "--exclude-standard"],
@@ -38,4 +40,17 @@ export function listProjectFiles(repositoryRoot) {
       );
     });
   });
+
+  const existingFiles = await Promise.all(
+    files.map(async (filename) => {
+      try {
+        await access(path.join(repositoryRoot, filename));
+        return filename;
+      } catch {
+        return undefined;
+      }
+    }),
+  );
+
+  return existingFiles.filter(Boolean);
 }
