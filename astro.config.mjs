@@ -10,10 +10,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) =>
-        !page.endsWith("/404.html") &&
-        !page.endsWith("/404/") &&
-        !page.endsWith("/request-coloring-page/sent/"),
+      filter: (page) => !page.endsWith("/404.html") && !page.endsWith("/404/"),
     }),
     icon(),
   ],
