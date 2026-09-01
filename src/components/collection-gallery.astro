@@ -34,7 +34,10 @@ const { items, action = "View image", featured = false } = Astro.props;
           <img
             src={item.thumb}
             alt={`${item.title} image`}
+            width="800"
+            height="600"
             loading="lazy"
+            decoding="async"
             class="h-full w-full object-cover transition duration-200 group-hover:scale-[1.02]"
           />
         </div>

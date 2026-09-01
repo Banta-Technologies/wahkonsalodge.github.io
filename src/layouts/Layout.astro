@@ -18,6 +18,12 @@ export interface Props {
   author?: string;
   tags?: string[];
   additionalStructuredData?: Record<string, unknown>[];
+  preloadImage?: {
+    href: string;
+    srcset?: string;
+    sizes?: string;
+    type?: string;
+  };
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
@@ -36,12 +42,9 @@ const {
   author,
   tags = [],
   additionalStructuredData = [],
+  preloadImage,
 } = Astro.props;
 
-const defaultImageWithDomain = new URL(
-  "/images/noni-and-papa/banner-evolved.png",
-  Astro.site,
-).toString();
 const resolvedImageWithDomain = new URL(image, Astro.site).toString();
 
 const makeTitle = title
@@ -49,6 +52,27 @@ const makeTitle = title
   : "Wahkonsa Lodge | Home of Noni & Papa";
 
 const pageSchemaType = type === "article" ? "BlogPosting" : "WebPage";
+const isHomePage = Astro.url.pathname === "/";
+const breadcrumbStructuredData = !isHomePage
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: Astro.site?.toString(),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: title ?? "Wahkonsa Lodge",
+          item: canonicalURL,
+        },
+      ],
+    }
+  : null;
 
 const structuredData = [
   {
@@ -63,7 +87,10 @@ const structuredData = [
     "@type": "Organization",
     name: "Wahkonsa Lodge",
     url: Astro.site?.toString(),
-    logo: defaultImageWithDomain,
+    logo: new URL(
+      "/images/site/wahkonsa-lodge-logo.png",
+      Astro.site,
+    ).toString(),
   },
   {
     "@context": "https://schema.org",
@@ -78,6 +105,7 @@ const structuredData = [
     ...(modifiedTime ? { dateModified: modifiedTime } : {}),
     ...(tags.length ? { keywords: tags.join(", ") } : {}),
   },
+  ...(breadcrumbStructuredData ? [breadcrumbStructuredData] : []),
   ...additionalStructuredData,
 ];
 ---
@@ -86,9 +114,23 @@ const structuredData = [
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    {
+      preloadImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={preloadImage.href}
+          imagesrcset={preloadImage.srcset}
+          imagesizes={preloadImage.sizes}
+          type={preloadImage.type}
+          fetchpriority="high"
+        />
+      )
+    }
 
     <!-- SEO -->
     <SEO
@@ -118,9 +160,6 @@ const structuredData = [
         },
         image: {
           secureUrl: resolvedImageWithDomain,
-          type: "image/png",
-          width: 1920,
-          height: 819,
           alt: imageAlt,
         },
         ...(type === "article"
@@ -136,13 +175,16 @@ const structuredData = [
       }}
     />
     <script
+      is:inline
       type="application/ld+json"
       set:html={JSON.stringify(structuredData)}
     />
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Q5FRRB9LE"
-    ></script>
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-2Q5FRRB9LE"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
