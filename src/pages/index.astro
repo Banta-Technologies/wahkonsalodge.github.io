@@ -40,6 +40,13 @@ const comicStructuredData = {
 
 <Layout
   description={homeDescription}
+  preloadImage={{
+    href: "/images/site/banner-evolved-960.webp",
+    srcset:
+      "/images/site/banner-evolved-480.webp 480w, /images/site/banner-evolved-960.webp 960w, /images/site/banner-evolved-1920.webp 1920w",
+    sizes: "(max-width: 1064px) calc(100vw - 2.5rem), 1024px",
+    type: "image/webp",
+  }}
   additionalStructuredData={[comicStructuredData]}>
   <Container>
     <Hero />

@@ -108,7 +108,7 @@ function formatTitle(filename: string) {
             <button
               type="button"
               data-category-filter={category}
-              class="shrink-0 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-600 hover:text-teal-700 data-[active=true]:border-teal-700 data-[active=true]:bg-teal-700 data-[active=true]:text-white"
+              class="min-h-12 shrink-0 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-600 hover:text-teal-700 data-[active=true]:border-teal-700 data-[active=true]:bg-teal-700 data-[active=true]:text-white"
               aria-pressed={category === "All" ? "true" : "false"}
               data-active={category === "All" ? "true" : "false"}>
               {category}
@@ -139,7 +139,10 @@ function formatTitle(filename: string) {
                   <img
                     src={thumb}
                     alt={`${title} printable coloring page`}
+                    width="500"
+                    height="625"
                     loading="lazy"
+                    decoding="async"
                     class="h-full w-full object-contain transition duration-200 group-hover:scale-[1.02]"
                   />
                 </div>
