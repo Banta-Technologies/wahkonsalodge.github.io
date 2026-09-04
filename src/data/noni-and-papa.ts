@@ -1,4 +1,4 @@
-export const latestNoniAndPapaSlug = "hyena-the-javelina";
+export const latestNoniAndPapaSlug = "insufficient-fish";
 
 export const noniAndPapaItems = [
   {
@@ -159,5 +159,11 @@ export const noniAndPapaItems = [
     version: 1,
     image: "/images/noni-and-papa/hyena-the-javelina-v1.png",
     thumb: "/images/noni-and-papa/thumbs/hyena-the-javelina-v1.jpg",
+  },
+  {
+    title: "Insufficient Fish",
+    version: 1,
+    image: "/images/noni-and-papa/insufficient-fish-v1.png",
+    thumb: "/images/noni-and-papa/thumbs/insufficient-fish-v1.jpg",
   },
 ] as const;
