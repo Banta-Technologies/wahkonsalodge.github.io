@@ -181,8 +181,10 @@ const featuredProducts = [
   },
 ];
 
+// Set active to true to show this seasonal collection on the shop page again.
 const featuredSeasonalCollection = {
   title: "Halloween Collection",
+  active: false,
   productAsins: new Set([
     "B0HHZP4FY3",
     "B0HJ2XJJBM",
@@ -194,13 +196,17 @@ const featuredSeasonalCollection = {
 };
 
 const shopSections = [
-  {
-    id: "seasonal-products-title",
-    title: featuredSeasonalCollection.title,
-    products: featuredProducts.filter((product) =>
-      featuredSeasonalCollection.productAsins.has(product.asin),
-    ),
-  },
+  ...(featuredSeasonalCollection.active
+    ? [
+        {
+          id: "seasonal-products-title",
+          title: featuredSeasonalCollection.title,
+          products: featuredProducts.filter((product) =>
+            featuredSeasonalCollection.productAsins.has(product.asin),
+          ),
+        },
+      ]
+    : []),
   {
     id: "evergreen-products-title",
     title: "Noni & Papa Merchandise",
